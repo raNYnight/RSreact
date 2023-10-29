@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import Spinner from '../../load-spinner/spinner';
+import Spinner from '../../../load-spinner/spinner';
 
-import '../../../index.css';
+import '../../../../index.css';
+import { Link, NavLink } from 'react-router-dom';
 
 export interface Beer {
   id: number;
@@ -50,21 +51,23 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ searchTerm }) => {
   ) : (
     <ul className="beer-list">
       {searchResults.map((beer) => (
-        <li
-          className="beer-card"
+        <NavLink
+          to={`details/${beer.id}`}
           key={beer.id}
         >
-          <img
-            src={beer.image_url}
-            alt={beer.name}
-          />
-          <div>
-            <h3>{beer.name}</h3>
-            <h4>{beer.tagline}</h4>
-            <p>{beer.description}</p>
-            <span>abv: {beer.abv}</span>
-          </div>
-        </li>
+          <li className="beer-card">
+            <img
+              src={beer.image_url}
+              alt={beer.name}
+            />
+            <div>
+              <h3>{beer.name}</h3>
+              <h4>{beer.tagline}</h4>
+              <p>{beer.description}</p>
+              <span>abv: {beer.abv}</span>
+            </div>
+          </li>
+        </NavLink>
       ))}
     </ul>
   );

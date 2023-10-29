@@ -1,0 +1,21 @@
+.detailed-beer {
+  border: 2px solid #e9b384;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.detailed-beer li {
+  margin-left: 10px;
+  list-style: '-';
+}
+
+.detailed-beer img {
+  align-self: center;
+  width: 5rem;
+  max-height: 20rem;
+}
+.detailed-beer h1 {
+  align-self: center;
+}

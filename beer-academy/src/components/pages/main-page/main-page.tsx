@@ -1,24 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import ResultsSection from './result-section/result-section';
 import SearchSection from './search-section/search-section';
 
-import '../../index.css';
+import '../../../index.css';
+import BeerInfoSection from './beer-info-section/beer-info-section';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
-const Main = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleSearch = (searchTerm: string) => {
-    setSearchTerm(searchTerm);
-    localStorage.setItem('searchTerm', searchTerm);
-  };
-
-  useEffect(() => {
-    const searchTerm = localStorage.getItem('searchTerm');
-    if (searchTerm) {
-      setSearchTerm(searchTerm);
-    }
-  }, []);
+function Main() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchTerm = searchParams.get('search');
 
   return (
     <div className="container">
@@ -34,10 +25,13 @@ const Main = () => {
           to beer education!
         </p>
       </main>
-      <SearchSection onSearch={handleSearch} />
-      <ResultsSection searchTerm={searchTerm} />
+      <SearchSection />
+      <div className="beer-section">
+        <ResultsSection searchTerm={searchTerm || ''} />
+        <BeerInfoSection />
+      </div>
     </div>
   );
-};
+}
 
 export default Main;

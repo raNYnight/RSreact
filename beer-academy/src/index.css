@@ -126,15 +126,32 @@ body {
 .beer-list {
   list-style: none;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4.8rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
 }
-
+.beer-list a {
+  text-decoration: none;
+  color: #252525;
+}
+.beer-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+.beer-info {
+  /* display: none; */
+}
 .beer-card {
   padding: 0 5px;
   display: flex;
   gap: 3.2rem;
   border: solid 2px #e9b384;
+}
+.beer-card:hover {
+  background-color: #f1ab6e61;
+}
+.active {
+  background-color: #f1ab6e61;
 }
 
 .beer-card img {

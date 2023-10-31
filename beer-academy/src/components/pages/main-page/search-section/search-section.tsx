@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import '../../../../index.css';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 export interface SearchSectionProps {
   // onSearch: (searchTerm: string) => void;

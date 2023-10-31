@@ -22,7 +22,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<Main params={params} />}
+          element={<Main />}
         >
           <Route
             path={`details`}

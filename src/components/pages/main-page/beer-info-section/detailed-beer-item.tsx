@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './beer-info.css';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export interface DetailedBeerData {
   id: number;

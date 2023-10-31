@@ -1,11 +1,14 @@
 module.exports = {
   root: true,
   extends: [
-    'plugin:react/recommended',
+    'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:react/recommended',
     'prettier',
     'plugin:prettier/recommended',
   ],
+  ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -19,8 +22,9 @@ module.exports = {
     es6: true,
     jest: true,
     node: true,
+    es2020: true,
   },
-  plugins: ['@typescript-eslint', 'react', 'react-hooks'],
+  plugins: ['react-refresh', '@typescript-eslint', 'react', 'react-hooks'],
   rules: {
     'no-unused-vars': 'off',
     'react-hooks/rules-of-hooks': 'error',

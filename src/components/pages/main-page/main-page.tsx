@@ -1,13 +1,12 @@
-import React from 'react';
-
 import ResultsSection from './result-section/result-section';
 import SearchSection from './search-section/search-section';
 
+import { useSearchParams } from 'react-router-dom';
 import '../../../index.css';
 import BeerInfoSection from './beer-info-section/beer-info-section';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 
 function Main() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
   const searchTerm = searchParams.get('search');
 

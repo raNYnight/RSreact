@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Spinner from '../../../load-spinner/spinner';
 
 import '../../../../index.css';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export interface Beer {
   id: number;

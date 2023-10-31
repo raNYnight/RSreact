@@ -10,6 +10,7 @@ export interface SearchSectionProps {
 const SearchSection: React.FC<SearchSectionProps> = () => {
   const [inputValue, setInputValue] = React.useState('');
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
   const searchTerm = searchParams.get('search');
   console.log('searchTerm', searchTerm);

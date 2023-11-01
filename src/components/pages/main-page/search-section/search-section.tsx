@@ -4,12 +4,14 @@ import '../../../../index.css';
 
 const SearchSection: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
+  const [select, setSelect] = useState('25');
   const location = useLocation();
   const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(location.search);
   const currentParams = Object.fromEntries(queryParams.entries());
   const searchTerm = queryParams.get('search');
+  const perPageTerm = queryParams.get('per_page');
 
   function handleSearch() {
     const paramsToSet = {
@@ -34,6 +36,14 @@ const SearchSection: React.FC = () => {
     }
   }, [searchTerm]);
 
+  useEffect(() => {
+    if (perPageTerm === null) {
+      setSelect('25');
+    } else {
+      setSelect(perPageTerm);
+    }
+  }, [perPageTerm]);
+
   return (
     <div className="form-input form-input-with-button">
       <button
@@ -51,10 +61,9 @@ const SearchSection: React.FC = () => {
         <label htmlFor="itemsPerPage">Items per page:</label>
         <select
           id="itemsPerPage"
-          value={currentParams.per_page || '25'}
+          value={select}
           onChange={handleItemsPerPageChange}
         >
-          <option value="1">1</option>
           <option value="5">5</option>
           <option value="10">10</option>
           <option value="25">25</option>

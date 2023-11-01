@@ -1,12 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import './pagination.css';
 
-function PaginationSection() {
+export interface PaginationSectionProps {
+  isNextPageAvailable: boolean;
+}
+const PaginationSection: React.FC<PaginationSectionProps> = ({ isNextPageAvailable }) => {
   const [page, setPage] = useState(1);
 
   const [queryParams, setQueryParams] = useSearchParams();
   const currentParams = Object.fromEntries(queryParams.entries());
+
+  useEffect(() => {
+    if (currentParams.page === undefined) {
+      setPage(1);
+    } else {
+      setPage(Number(currentParams.page));
+    }
+  }, [currentParams.page]);
+
   function handleNext() {
     setPage((prevPage) => {
       const newPage = prevPage + 1;
@@ -38,9 +50,14 @@ function PaginationSection() {
       <span>
         <h4>{page}</h4>
       </span>
-      <button onClick={handleNext}>Next Page</button>
+      <button
+        onClick={handleNext}
+        disabled={!isNextPageAvailable}
+      >
+        Next Page
+      </button>
     </div>
   );
-}
+};
 
 export default PaginationSection;

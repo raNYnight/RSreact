@@ -96,6 +96,8 @@ body {
   border-top: 2px solid currentColor;
   border-bottom: 2px solid currentColor;
   background: transparent;
+  display: flex;
+  justify-content: space-between;
 }
 
 .form-input .input {
@@ -103,6 +105,7 @@ body {
   border: none;
   width: 100%;
   background: transparent;
+  width: 50%;
 }
 .input:focus {
   outline: none;
@@ -116,7 +119,7 @@ body {
   margin: 0.65em;
   position: absolute;
   top: 0;
-  right: 0;
+  right: 50%;
 }
 
 .form-input-with-button .input {
@@ -135,12 +138,9 @@ body {
 }
 .beer-section {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 3rem;
 }
-.beer-info {
-  /* display: none; */
-}
+
 .beer-card {
   padding: 0 5px;
   display: flex;

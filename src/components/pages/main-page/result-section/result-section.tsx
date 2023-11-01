@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Spinner from '../../../load-spinner/spinner';
 
 import '../../../../index.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
 export interface Beer {
   id: number;
@@ -14,7 +14,7 @@ export interface Beer {
 }
 
 export interface ResultsSectionProps {
-  searchTerm: string;
+  // searchTerm: string;
 }
 
 export interface ResultsSectionState {
@@ -22,15 +22,34 @@ export interface ResultsSectionState {
   isLoading: boolean;
 }
 
-const ResultsSection: React.FC<ResultsSectionProps> = ({ searchTerm }) => {
+const ResultsSection: React.FC<ResultsSectionProps> = () => {
   const [searchResults, setSearchResults] = useState<Beer[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const currentParams = Object.fromEntries(queryParams.entries());
+  const searchTerm = queryParams.get('search');
+  const perPageTerm = queryParams.get('per_page');
+  const pageTerm = queryParams.get('page');
 
   useEffect(() => {
     const fetchSearchResults = async (): Promise<void> => {
       let url = 'https://api.punkapi.com/v2/beers';
+
+      const params = new URLSearchParams();
       if (searchTerm && searchTerm.trim() !== '') {
-        url += `?beer_name=${encodeURIComponent(searchTerm.trim())}`;
+        params.set('beer_name', searchTerm.trim());
+      }
+      if (perPageTerm && perPageTerm.trim() !== '') {
+        params.set('per_page', perPageTerm.trim());
+      }
+      if (pageTerm && pageTerm.trim() !== '') {
+        params.set('page', pageTerm.trim());
+      }
+
+      if (params.toString() !== '') {
+        url += `?${params.toString()}`;
       }
 
       try {
@@ -44,15 +63,22 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ searchTerm }) => {
       }
     };
     fetchSearchResults();
-  }, [searchTerm]);
+  }, [pageTerm, perPageTerm, searchTerm]);
 
+  const handleBeerClick = (beer: Beer) => {
+    navigate(`/details/${beer.id}`, currentParams);
+  };
   return isLoading ? (
     <Spinner />
   ) : (
     <ul className="beer-list">
       {searchResults.map((beer) => (
         <NavLink
-          to={`details/${beer.id}`}
+          onClick={() => handleBeerClick(beer)}
+          to={{
+            pathname: `details/${beer.id}`,
+            search: queryParams.toString(),
+          }}
           key={beer.id}
         >
           <li className="beer-card">

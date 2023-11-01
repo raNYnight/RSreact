@@ -4,6 +4,7 @@ import SearchSection from './search-section/search-section';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import '../../../index.css';
 import BeerInfoSection from './beer-info-section/beer-info-section';
+import PaginationSection from './pagination-section/pagination-section';
 
 function Main() {
   const params = useParams();
@@ -28,15 +29,17 @@ function Main() {
           programs, workshops, and tastings to explore the art and science of brewing beer. Cheers
           to beer education!
         </p>
+
+        <SearchSection />
+        <PaginationSection />
+        <div
+          className="beer-section"
+          style={{ gridTemplateColumns: params.id ? '1fr 1fr' : '1fr' }}
+        >
+          <ResultsSection />
+          {params.id && <BeerInfoSection />}
+        </div>
       </main>
-      <SearchSection />
-      <div
-        className="beer-section"
-        style={{ gridTemplateColumns: params.id ? '1fr 1fr' : '1fr' }}
-      >
-        <ResultsSection />
-        {params.id && <BeerInfoSection />}
-      </div>
     </div>
   );
 }

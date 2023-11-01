@@ -13,16 +13,12 @@ export interface Beer {
   image_url: string;
 }
 
-export interface ResultsSectionProps {
-  // searchTerm: string;
-}
-
 export interface ResultsSectionState {
   searchResults: Beer[];
   isLoading: boolean;
 }
 
-const ResultsSection: React.FC<ResultsSectionProps> = () => {
+const ResultsSection: React.FC = () => {
   const [searchResults, setSearchResults] = useState<Beer[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();

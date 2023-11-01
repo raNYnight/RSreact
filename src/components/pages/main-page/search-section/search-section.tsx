@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../../../../index.css';
 
-export interface SearchSectionProps {
-  // onSearch: (searchTerm: string) => void;
-  // searchTerm: string;
-}
-
-const SearchSection: React.FC<SearchSectionProps> = () => {
+const SearchSection: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
@@ -64,7 +59,7 @@ const SearchSection: React.FC<SearchSectionProps> = () => {
           <option value="10">10</option>
           <option value="25">25</option>
           <option value="50">50</option>
-          <option value="100">100</option>
+          <option value="80">80</option>
         </select>
       </div>
     </div>

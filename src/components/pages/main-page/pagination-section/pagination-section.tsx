@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './pagination.css';
 
 export interface PaginationSectionProps {
   isNextPageAvailable: boolean;
 }
 const PaginationSection: React.FC<PaginationSectionProps> = ({ isNextPageAvailable }) => {
-  const [page, setPage] = useState(1);
-
-  const [queryParams, setQueryParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
   const currentParams = Object.fromEntries(queryParams.entries());
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (currentParams.page === undefined) {
@@ -22,20 +23,24 @@ const PaginationSection: React.FC<PaginationSectionProps> = ({ isNextPageAvailab
   function handleNext() {
     setPage((prevPage) => {
       const newPage = prevPage + 1;
-      setQueryParams({
+      const paramsToSet = {
         ...currentParams,
         page: newPage.toString(),
-      });
+      };
+      const queryParams = new URLSearchParams(paramsToSet).toString();
+      navigate(`/?${queryParams}`);
       return newPage;
     });
   }
   function handlePrev() {
     setPage((prevPage) => {
       const newPage = prevPage - 1;
-      setQueryParams({
+      const paramsToSet = {
         ...currentParams,
         page: newPage.toString(),
-      });
+      };
+      const queryParams = new URLSearchParams(paramsToSet).toString();
+      navigate(`/?${queryParams}`);
       return newPage;
     });
   }

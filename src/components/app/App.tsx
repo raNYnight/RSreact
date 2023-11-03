@@ -1,15 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Main from '../pages/main-page/main-page';
-import PageNotFound from '../pages/page-not-found/page-not-found';
+// import PageNotFound from '../pages/page-not-found/page-not-found';
 // import BeerInfoSection from '../pages/main-page/beer-info-section/beer-info-section';
 import DetailedBeerItem from '../pages/main-page/beer-info-section/detailed-beer-item';
 
 function App() {
-  const basename = process.env.PUBLIC_URL;
-
   return (
-    <BrowserRouter basename={basename}>
+    <BrowserRouter>
       <Routes>
         <Route
           path="/"
@@ -20,10 +18,10 @@ function App() {
             element={<DetailedBeerItem />}
           />
         </Route>
-        <Route
+        {/* <Route
           path="*"
           element={<PageNotFound />}
-        />
+        /> */}
       </Routes>
     </BrowserRouter>
   );

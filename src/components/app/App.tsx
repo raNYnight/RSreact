@@ -5,11 +5,10 @@ import PageNotFound from '../pages/page-not-found/page-not-found';
 import DetailedBeerItem from '../pages/main-page/beer-info-section/detailed-beer-item';
 
 function App() {
-  // const [queryParams, setQueryParams] = useSearchParams();
-  // const searchTerm = queryParams.get('search');
+  const basename = process.env.PUBLIC_URL;
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <Routes>
         <Route
           path="/"

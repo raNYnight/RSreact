@@ -6,10 +6,10 @@ import PageNotFound from '../pages/page-not-found/page-not-found';
 import DetailedBeerItem from '../pages/main-page/beer-info-section/detailed-beer-item';
 
 function App() {
-  const basename = process.env.PUBLIC_URL;
+  // const basename = process.env.PUBLIC_URL;
 
   return (
-    <BrowserRouter basename={basename}>
+    <BrowserRouter>
       <Routes>
         <Route
           path="/"

@@ -1,3 +1,4 @@
+import React from 'react';
 import ResultsSection, { Beer } from './result-section/result-section';
 import SearchSection from './search-section/search-section';
 

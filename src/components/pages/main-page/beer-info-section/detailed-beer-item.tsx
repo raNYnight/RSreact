@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './beer-info.css';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import Spinner from '../../../load-spinner/spinner';
 
 export interface DetailedBeerData {
   id: number;
@@ -27,7 +28,9 @@ function DetailedBeerItem() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [beer, setBeer] = useState<DetailedBeerData | undefined>();
   const params = useParams();
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
   useEffect(() => {
     const fetchBeerData = async (beerID: string): Promise<DetailedBeerData> => {
       try {
@@ -50,8 +53,11 @@ function DetailedBeerItem() {
     getBeerData();
   }, [params.id]);
 
+  const handleClick = () => {
+    navigate({ pathname: '/', search: queryParams.toString() });
+  };
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <Spinner />;
   }
 
   if (!beer) {
@@ -60,6 +66,10 @@ function DetailedBeerItem() {
 
   return (
     <div className="detailed-beer">
+      <button
+        className="button glyphicon glyphicon-remove"
+        onClick={handleClick}
+      ></button>
       <h1>{beer.name}</h1>
       <img
         src={beer.image_url}

@@ -157,7 +157,7 @@ body {
 .beer-card img {
   width: 12rem;
   height: 20rem;
-  /* aspect-ratio: 1; */
+  aspect-ratio: 0.3;
   align-self: center;
 }
 

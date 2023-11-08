@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import '../../../../index.css';
-import { useBeerData } from '../../../contexts/beer-context';
+import { BeerContextValue, useBeerData } from '../../../contexts/beer-context';
 import Spinner from '../../../load-spinner/spinner';
 
 export interface Beer {
@@ -16,14 +16,14 @@ export interface Beer {
 const ResultsSection: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const beerData = useBeerData();
+  const beerData = useBeerData() as BeerContextValue;
   const queryParams = new URLSearchParams(location.search);
   const currentParams = Object.fromEntries(queryParams.entries());
 
   const handleBeerClick = (beer: Beer) => {
     navigate(`/details/${beer.id}`, currentParams);
   };
-  return beerData!.isResultsLoading ? (
+  return beerData.isResultsLoading ? (
     <Spinner />
   ) : (
     <ul className="beer-list">

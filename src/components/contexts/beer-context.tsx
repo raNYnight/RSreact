@@ -14,6 +14,9 @@ export type BeerContextValue = {
   isResultsLoading: boolean;
   isDetailsLoading: boolean;
   detailedBeer: DetailedBeerData | null;
+  pageTerm: number;
+  handlePreviousPage: () => void;
+  handleNextPage: () => void;
 };
 
 const BeerContext = createContext<BeerContextValue | null>(null);
@@ -24,17 +27,20 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(location.search);
-  const [searchTerm, setSearchTerm] = useState<string>(queryParams.get('search') || '');
+  const pageQueryParam = queryParams.get('page');
+  const itemPerPageQueryParam = queryParams.get('per_page');
+  const searchQueryParam = queryParams.get('search');
+
+  const [searchTerm, setSearchTerm] = useState<string>(searchQueryParam || '');
   const [isResultsLoading, setIsResultsLoading] = useState<boolean>(true);
   const [isDetailsLoading, setIsDetailsLoading] = useState<boolean>(true);
   const [itemPerPage, setItemPerPage] = useState<string>(
-    queryParams.get('per_page') || BASE_ITEM_PER_PAGE
+    itemPerPageQueryParam || BASE_ITEM_PER_PAGE
   );
   const [searchResults, setSearchResults] = useState<Beer[]>([]);
+  const [pageTerm, setPageTerm] = useState<number>(Number(pageQueryParam) || BASE_PAGE);
   const [isNextPageAvailable, setIsNextPageAvailable] = useState<boolean>(true);
   const [detailedBeer, setDetailedBeer] = useState<DetailedBeerData | null>(null);
-  // const perPageTerm = queryParams.get('per_page') || BASE_ITEM_PER_PAGE;
-  const pageTerm = queryParams.get('page');
   const currentParams = Object.fromEntries(queryParams.entries());
 
   useEffect(() => {
@@ -50,23 +56,21 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
       if (itemPerPage && itemPerPage.trim() !== '') {
         params.set('per_page', itemPerPage.trim());
       }
-      if (pageTerm && pageTerm.trim() !== '') {
-        params.set('page', pageTerm.trim());
+      if (pageTerm && pageTerm.toString().trim() !== '') {
+        params.set('page', pageTerm.toString().trim());
       }
-
       if (params.toString() !== '') {
         url += `?${params.toString()}`;
       }
 
       try {
-        setIsNextPageAvailable(true);
         const response = await fetch(url);
         const data = await response.json();
-
         if (data.length < itemPerPage) {
           setIsNextPageAvailable(false);
+        } else {
+          setIsNextPageAvailable(true);
         }
-
         setSearchResults(data);
         setIsResultsLoading(false);
       } catch (error) {
@@ -96,8 +100,19 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     }
   }, [params.id]);
 
+  useEffect(() => {
+    if (pageQueryParam) {
+      setPageTerm(Number(pageQueryParam));
+    }
+    if (itemPerPageQueryParam) {
+      setItemPerPage(itemPerPageQueryParam);
+    }
+    if (searchQueryParam) {
+      setSearchTerm(searchQueryParam);
+    }
+  }, [pageQueryParam, itemPerPageQueryParam, searchQueryParam]);
+
   function handleSearch(inputValue: string) {
-    setSearchTerm(inputValue);
     localStorage.setItem('searchTerm', inputValue);
     const paramsToSet = {
       ...currentParams,
@@ -111,10 +126,28 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const paramsToSet = { ...currentParams, per_page: e.target.value, page: BASE_PAGE.toString() };
     const queryParams = new URLSearchParams(paramsToSet).toString();
-    setItemPerPage(e.target.value);
     navigate(`/?${queryParams}`);
   };
 
+  const handlePreviousPage = () => {
+    const newPage = pageTerm - 1;
+    const paramsToSet = {
+      ...currentParams,
+      page: newPage.toString(),
+    };
+    const queryParams = new URLSearchParams(paramsToSet).toString();
+    navigate(`/?${queryParams}`);
+  };
+
+  const handleNextPage = () => {
+    const newPage = pageTerm + 1;
+    const paramsToSet = {
+      ...currentParams,
+      page: newPage.toString(),
+    };
+    const queryParams = new URLSearchParams(paramsToSet).toString();
+    navigate(`/?${queryParams}`);
+  };
   return (
     <BeerContext.Provider
       value={{
@@ -122,6 +155,9 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
         handleSearch,
         itemPerPage,
         handleItemsPerPageChange,
+        pageTerm,
+        handleNextPage,
+        handlePreviousPage,
         searchResults,
         isNextPageAvailable,
         isResultsLoading,

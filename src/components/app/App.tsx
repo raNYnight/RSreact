@@ -1,9 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Main from '../pages/main-page/main-page';
-// import PageNotFound from '../pages/page-not-found/page-not-found';
-// import BeerInfoSection from '../pages/main-page/beer-info-section/beer-info-section';
-import DetailedBeerItem from '../pages/main-page/beer-info-section/detailed-beer-item';
+import PageNotFound from '../pages/page-not-found/page-not-found';
+import MainPage from '../pages/main-page/main-page';
+import DetailedBeerItem from '../pages/main-page/detailed-beer-item/detailed-beer-item';
 
 function App() {
   return (
@@ -11,17 +10,17 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<Main />}
+          element={<MainPage />}
         >
           <Route
             path="details/:id"
             element={<DetailedBeerItem />}
           />
         </Route>
-        {/* <Route
+        <Route
           path="*"
           element={<PageNotFound />}
-        /> */}
+        />
       </Routes>
     </BrowserRouter>
   );

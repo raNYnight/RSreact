@@ -3,20 +3,20 @@ import { useEffect, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import './pagination.css';
+import { BeerContextValue, useBeerData } from '../../../contexts/beer-context';
+import { BASE_PAGE } from '../../../constants/constants';
 
-export interface PaginationSectionProps {
-  isNextPageAvailable: boolean;
-}
-const PaginationSection: React.FC<PaginationSectionProps> = ({ isNextPageAvailable }) => {
+const PaginationSection: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const currentParams = Object.fromEntries(queryParams.entries());
   const [page, setPage] = useState(1);
+  const beerData = useBeerData() as BeerContextValue;
 
   useEffect(() => {
     if (currentParams.page === undefined) {
-      setPage(1);
+      setPage(BASE_PAGE);
     } else {
       setPage(Number(currentParams.page));
     }
@@ -59,7 +59,7 @@ const PaginationSection: React.FC<PaginationSectionProps> = ({ isNextPageAvailab
       </span>
       <button
         onClick={handleNext}
-        disabled={!isNextPageAvailable}
+        disabled={!beerData.isNextPageAvailable}
       >
         Next Page
       </button>

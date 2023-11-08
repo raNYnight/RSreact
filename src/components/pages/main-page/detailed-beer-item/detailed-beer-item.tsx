@@ -1,8 +1,7 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import './beer-info.css';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { BeerContextValue, useBeerData } from '../../../contexts/beer-context';
 import Spinner from '../../../load-spinner/spinner';
+import './detailed-beer.css';
 
 export interface DetailedBeerData {
   id: number;
@@ -26,39 +25,21 @@ export interface BeerIngridients {
 }
 
 function DetailedBeerItem() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [beer, setBeer] = useState<DetailedBeerData | undefined>();
-  const params = useParams();
+  const beerData = useBeerData() as BeerContextValue;
+  const beer = beerData.detailedBeer;
   const navigate = useNavigate();
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  useEffect(() => {
-    const fetchBeerData = async (beerID: string): Promise<DetailedBeerData> => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(`https://api.punkapi.com/v2/beers/${beerID}`);
-        const data: DetailedBeerData[] = await response.json();
-        setIsLoading(false);
-        return data[0];
-      } catch (error) {
-        console.error('Error fetching beer data:', error);
-        throw error; // Если требуется обработка ошибки в другом месте
-      }
-    };
-
-    const getBeerData = async () => {
-      const beerData = await fetchBeerData(params.id || '');
-      setBeer(beerData);
-    };
-
-    getBeerData();
-  }, [params.id]);
 
   const handleClick = () => {
+    const queryParams = new URLSearchParams(location.search);
     navigate({ pathname: '/', search: queryParams.toString() });
   };
-  if (isLoading) {
-    return <Spinner />;
+  if (beerData.isDetailsLoading) {
+    return (
+      <div className="detailed-beer">
+        <Spinner />
+      </div>
+    );
   }
 
   if (!beer) {

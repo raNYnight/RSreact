@@ -3,8 +3,7 @@ import '../../../../index.css';
 import { BeerContextValue, useBeerData } from '../../../contexts/beer-context';
 
 const SearchSection: React.FC = () => {
-  const inputRef = React.createRef<HTMLInputElement>();
-
+  const [inputValue, setInputValue] = React.useState<string>('');
   const beerData = useBeerData() as BeerContextValue;
 
   return (
@@ -12,15 +11,17 @@ const SearchSection: React.FC = () => {
       <button
         className="button glyphicon glyphicon-search"
         onClick={() => {
-          beerData.handleSearch(inputRef.current!.value);
+          beerData.handleSearch(inputValue);
         }}
       ></button>
       <input
         className="input"
         type="text"
-        defaultValue={beerData.searchTerm}
+        value={inputValue}
         placeholder="Find beer"
-        ref={inputRef}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setInputValue(e.target.value);
+        }}
       />
       <div>
         <label htmlFor="itemsPerPage">Items per page:</label>

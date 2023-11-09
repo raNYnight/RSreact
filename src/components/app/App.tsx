@@ -1,28 +1,25 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import PageNotFound from '../pages/page-not-found/page-not-found';
-import MainPage from '../pages/main-page/main-page';
+import { Route, Routes } from 'react-router-dom';
 import DetailedBeerItem from '../pages/main-page/detailed-beer-item/detailed-beer-item';
+import MainPage from '../pages/main-page/main-page';
+import PageNotFound from '../pages/page-not-found/page-not-found';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <Routes>
+      <Route
+        path="/"
+        element={<MainPage />}
+      >
         <Route
-          path="/"
-          element={<MainPage />}
-        >
-          <Route
-            path="details/:id"
-            element={<DetailedBeerItem />}
-          />
-        </Route>
-        <Route
-          path="*"
-          element={<PageNotFound />}
+          path="details/:id"
+          element={<DetailedBeerItem />}
         />
-      </Routes>
-    </BrowserRouter>
+      </Route>
+      <Route
+        path="*"
+        element={<PageNotFound />}
+      />
+    </Routes>
   );
 }
 

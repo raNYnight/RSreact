@@ -5,6 +5,7 @@ import '../../../index.css';
 import BeerSection from './beer-section/beer-section';
 import PaginationSection from './pagination-section/pagination-section';
 import { BeerProvider } from '../../contexts/beer-context';
+import Footer from './footer/footer';
 
 const MainPage = () => {
   console.log('main page rendered');
@@ -32,6 +33,7 @@ const MainPage = () => {
           <PaginationSection />
           <BeerSection />
         </main>
+        <Footer />
       </div>
     </BeerProvider>
   );

@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../../../../index.css';
 import { BeerContextValue, useBeerData } from '../../../contexts/beer-context';
 
 const SearchSection: React.FC = () => {
   const [inputValue, setInputValue] = React.useState<string>('');
   const beerData = useBeerData() as BeerContextValue;
+
+  useEffect(() => {
+    setInputValue(beerData.searchTerm);
+  }, [beerData.searchTerm]);
 
   return (
     <div className="form-input form-input-with-button">

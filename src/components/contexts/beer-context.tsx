@@ -103,11 +103,15 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   useEffect(() => {
     setPageTerm(pageQueryParam ? Number(pageQueryParam) : BASE_PAGE);
     setItemPerPage(itemPerPageQueryParam ? itemPerPageQueryParam : BASE_ITEM_PER_PAGE);
-    setSearchTerm(searchQueryParam ? searchQueryParam : '');
+    if (searchQueryParam) {
+      setSearchTerm(searchQueryParam);
+      localStorage.setItem('searchTerm', searchQueryParam);
+    } else {
+      localStorage.removeItem('searchTerm');
+    }
   }, [pageQueryParam, itemPerPageQueryParam, searchQueryParam]);
 
   function handleSearch(inputValue: string) {
-    localStorage.setItem('searchTerm', inputValue);
     const paramsToSet = {
       ...currentParams,
       search: inputValue,

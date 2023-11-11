@@ -1,0 +1,66 @@
+// import React, { useContext, useState } from 'react';
+// import { useParams, useLocation, useNavigate } from 'react-router-dom';
+
+// export type PaginationContextValue = {
+//   handlePreviousPage: () => void;
+//   handleNextPage: () => void;
+//   itemPerPage: string;
+//   handleItemsPerPageChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+//   isNextPageAvailable: boolean;
+//   pageTerm: number;
+// };
+
+// export const PaginationContext = React.createContext<PaginationContextValue | null>(null);
+
+// const PaginationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+//   const queryParams = new URLSearchParams(location.search);
+//   const currentParams = Object.fromEntries(queryParams.entries());
+//   const params = useParams();
+//   const location = useLocation();
+//   const navigate = useNavigate();
+
+//   const [isNextPageAvailable, setIsNextPageAvailable] = useState<boolean>(true);
+//   const [pageTerm, setPageTerm] = React.useState<number>(1);
+//   const pageQueryParam = queryParams.get('page');
+
+//   const handlePreviousPage = () => {
+//     const newPage = pageTerm - 1;
+//     const paramsToSet = {
+//       ...currentParams,
+//       page: newPage.toString(),
+//     };
+//     const queryParams = new URLSearchParams(paramsToSet).toString();
+//     navigate(`/?${queryParams}`);
+//   };
+
+//   const handleNextPage = () => {
+//     const newPage = pageTerm + 1;
+//     const paramsToSet = {
+//       ...currentParams,
+//       page: newPage.toString(),
+//     };
+//     const queryParams = new URLSearchParams(paramsToSet).toString();
+//     navigate(`/?${queryParams}`);
+//   };
+
+//   return (
+//     <PaginationProvider
+//       value={{
+//         handlePreviousPage,
+//         handleNextPage,
+//         itemPerPage,
+//         handleItemsPerPageChange,
+//         isNextPageAvailable,
+//         pageTerm,
+//       }}
+//     >
+//       {children}
+//     </PaginationProvider>
+//   );
+// };
+
+// const usePaginationContext = () => {
+//   return useContext(PaginationContext);
+// };
+
+// export { PaginationProvider, usePaginationContext };

@@ -19,7 +19,7 @@ export type BeerContextValue = {
   handleNextPage: () => void;
 };
 
-const BeerContext = createContext<BeerContextValue | null>(null);
+export const BeerContext = createContext<BeerContextValue | null>(null);
 
 const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const params = useParams();
@@ -32,14 +32,16 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   const searchQueryParam = queryParams.get('search');
 
   const [searchTerm, setSearchTerm] = useState<string>(searchQueryParam || '');
-  const [isResultsLoading, setIsResultsLoading] = useState<boolean>(true);
-  const [isDetailsLoading, setIsDetailsLoading] = useState<boolean>(true);
+  const [isResultsLoading, setIsResultsLoading] = useState(true);
+  const [isDetailsLoading, setIsDetailsLoading] = useState(true);
   const [itemPerPage, setItemPerPage] = useState<string>(
     itemPerPageQueryParam || BASE_ITEM_PER_PAGE
   );
   const [searchResults, setSearchResults] = useState<Beer[]>([]);
   const [pageTerm, setPageTerm] = useState<number>(Number(pageQueryParam) || BASE_PAGE);
-  const [isNextPageAvailable, setIsNextPageAvailable] = useState<boolean>(true);
+
+  const [isNextPageAvailable, setIsNextPageAvailable] = useState(true);
+
   const [detailedBeer, setDetailedBeer] = useState<DetailedBeerData | null>(null);
   const currentParams = Object.fromEntries(queryParams.entries());
 
@@ -71,7 +73,18 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
         } else {
           setIsNextPageAvailable(true);
         }
-        setSearchResults(data);
+        setSearchResults(
+          data.map((beer: Beer) => {
+            return {
+              id: beer.id,
+              name: beer.name,
+              tagline: beer.tagline,
+              description: beer.description,
+              abv: beer.abv,
+              image_url: beer.image_url,
+            };
+          })
+        );
         setIsResultsLoading(false);
       } catch (error) {
         console.error('Error fetching search results:', error);
@@ -171,5 +184,4 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 const useBeerData = () => {
   return useContext(BeerContext);
 };
-
 export { BeerProvider, useBeerData };

@@ -36,7 +36,10 @@ const ResultsSection: React.FC = () => {
           }}
           key={beer.id}
         >
-          <li className="beer-card">
+          <li
+            className="beer-card"
+            data-testid="beer-card"
+          >
             <img
               src={beer.image_url}
               alt={beer.name}

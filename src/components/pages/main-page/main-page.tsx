@@ -8,7 +8,6 @@ import { BeerProvider } from '../../contexts/beer-context';
 import Footer from './footer/footer';
 
 const MainPage = () => {
-  console.log('main page rendered');
   return (
     <BeerProvider>
       <div className="container">

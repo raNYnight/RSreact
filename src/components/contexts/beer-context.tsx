@@ -48,6 +48,7 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   const currentParams = Object.fromEntries(queryParams.entries());
 
   useEffect(() => {
+    setDetailedBeerID(undefined);
     const fetchSearchResults = async () => {
       setIsResultsLoading(true);
       const data = await fetchBySearch(searchTerm, pageTerm, itemPerPage);

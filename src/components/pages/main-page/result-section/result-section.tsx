@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import '../../../../index.css';
+import { BeerContextValue, useBeerData } from '../../../contexts/beer-context';
+import Spinner from '../../../load-spinner/spinner';
 
 export interface Beer {
   id: number;
@@ -11,26 +13,22 @@ export interface Beer {
   image_url: string;
 }
 
-export interface ResultsSectionState {
-  searchResults: Beer[];
-  isLoading: boolean;
-}
-export interface ResultsSectionProps {
-  searchResults: Beer[];
-}
-
-const ResultsSection: React.FC<ResultsSectionProps> = ({ searchResults }) => {
+const ResultsSection: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const beerData = useBeerData() as BeerContextValue;
   const queryParams = new URLSearchParams(location.search);
   const currentParams = Object.fromEntries(queryParams.entries());
 
   const handleBeerClick = (beer: Beer) => {
+    beerData.handleDetailsOpen(beer.id);
     navigate(`/details/${beer.id}`, currentParams);
   };
-  return (
+  return beerData.isResultsLoading ? (
+    <Spinner />
+  ) : (
     <ul className="beer-list">
-      {searchResults.map((beer) => (
+      {beerData!.searchResults.map((beer) => (
         <NavLink
           onClick={() => handleBeerClick(beer)}
           to={{
@@ -39,7 +37,10 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ searchResults }) => {
           }}
           key={beer.id}
         >
-          <li className="beer-card">
+          <li
+            className="beer-card"
+            data-testid="beer-card"
+          >
             <img
               src={beer.image_url}
               alt={beer.name}

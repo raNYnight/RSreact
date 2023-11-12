@@ -2,7 +2,10 @@ import React from 'react';
 
 const Spinner = () => {
   return (
-    <div className="spinner">
+    <div
+      className="spinner"
+      data-testid="spinner"
+    >
       <div>Loading...</div>
       <svg
         xmlns="http://www.w3.org/2000/svg"

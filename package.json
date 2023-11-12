@@ -52,7 +52,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "pre-push"
+      "pre-push": "npm run test"
     }
   },
   "lint-staged": {
@@ -60,12 +60,6 @@
       "eslint --fix",
       "prettier --write",
       "git add -A"
-    ]
-  },
-  "pre-push": {
-    "src/**/*.{js,jsx,ts,tsx}": [
-      "vitest --run",
-      "vitest run --coverage"
     ]
   }
 }

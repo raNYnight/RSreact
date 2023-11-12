@@ -33,6 +33,7 @@ const SearchSection: React.FC = () => {
       <div>
         <label htmlFor="itemsPerPage">Items per page:</label>
         <select
+          data-testid="items-per-page-input"
           id="itemsPerPage"
           value={beerData.itemPerPage}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {

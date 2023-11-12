@@ -51,7 +51,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "prepush-if-changed"
     }
   },
   "lint-staged": {
@@ -59,6 +60,12 @@
       "eslint --fix",
       "prettier --write",
       "git add -A"
+    ]
+  },
+  "prepush-if-changed": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "vitest --reporter=verbose",
+      "vitest run --coverage"
     ]
   }
 }

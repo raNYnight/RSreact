@@ -83,4 +83,30 @@ describe('SearchSection', () => {
     fireEvent.click(searchBTN);
     expect(JSON.parse(localStorage.getItem('searchTerm') || '')).toStrictEqual(mockData.searchTerm);
   });
+
+  it('should trigger input change on search input', () => {
+    const { getByTestId } = render(
+      <BeerContext.Provider value={mockData}>
+        <SearchSection />
+      </BeerContext.Provider>
+    );
+    const inputElement = getByTestId('search-input') as HTMLInputElement;
+
+    fireEvent.change(inputElement, { target: { value: 'new value' } });
+
+    expect(inputElement.value).toBe('new value');
+  });
+
+  it('should trigger input change on items per page input', () => {
+    const { getByTestId } = render(
+      <BeerContext.Provider value={mockData}>
+        <SearchSection />
+      </BeerContext.Provider>
+    );
+    const inputElement = getByTestId('items-per-page-input') as HTMLInputElement;
+
+    fireEvent.change(inputElement, { target: { value: '5' } });
+
+    expect(inputElement.value).toBe('5');
+  });
 });

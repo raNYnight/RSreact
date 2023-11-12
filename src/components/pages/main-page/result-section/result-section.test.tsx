@@ -1,12 +1,11 @@
 // Tests for the Card List component:
 // Verify that the component renders the specified number of cards;
 // Check that an appropriate message is displayed if no cards are present.
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { it } from 'vitest';
+import { it, vi } from 'vitest';
 import { BeerContext, BeerContextValue } from '../../../contexts/beer-context';
 import ResultSection from './result-section';
-import App from '../../../app/App';
 
 describe('ResultsSection', async () => {
   let mockData: BeerContextValue = {
@@ -64,21 +63,38 @@ describe('ResultsSection', async () => {
     expect(beerCards.length).toBe(3);
   });
 
-  it('Displays an appropriate message if no cards are present', async () => {
+  it('Displays a spinner while loading', async () => {
     mockData = {
       ...mockData,
-      searchTerm: '322',
-      searchResults: [],
+      isResultsLoading: true,
     };
     render(
       <MemoryRouter initialEntries={['/']}>
         <BeerContext.Provider value={mockData}>
-          <App />
+          <ResultSection />
         </BeerContext.Provider>
       </MemoryRouter>
     );
-    const beerCards = screen.queryAllByTestId('beer-card');
-    expect(beerCards.length).toBe(0);
-    expect(screen.getByText('There is no beer found')).toBeInTheDocument();
+    const spinner = screen.getByTestId('spinner');
+    expect(spinner).toBeInTheDocument();
+  });
+
+  it('handle click on card works correctly', async () => {
+    mockData = {
+      ...mockData,
+      isResultsLoading: false,
+    };
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <BeerContext.Provider value={mockData}>
+          <ResultSection />
+        </BeerContext.Provider>
+      </MemoryRouter>
+    );
+    const beerCard = screen.getAllByTestId('beer-card')[0];
+    expect(beerCard).toBeInTheDocument();
+    vi.spyOn(mockData, 'handleDetailsOpen');
+    fireEvent.click(beerCard);
+    expect(mockData.handleDetailsOpen).toHaveBeenCalled();
   });
 });

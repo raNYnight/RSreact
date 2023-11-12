@@ -64,8 +64,8 @@
   },
   "pre-push": {
     "src/**/*.{js,jsx,ts,tsx}": [
-      "vitest --reporter=verbose --run",
-      "vitest --run --coverage"
+      "vitest --run",
+      "vitest run --coverage"
     ]
   }
 }

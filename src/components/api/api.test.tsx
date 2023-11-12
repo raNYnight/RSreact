@@ -7,8 +7,6 @@ describe('fetchBySearch', () => {
     const search = 'IPA';
     const page = 1;
     const itemPerPage = '10';
-
-    // Мокаем fetch и создаем фейковый ответ
     const mockResponse = [
       {
         id: 1,
@@ -36,8 +34,6 @@ describe('fetchBySearch', () => {
     expect(window.fetch).toHaveBeenCalledWith(
       `${BASE_API_URL}beers?beer_name=${search}&per_page=${itemPerPage}&page=${page}`
     );
-
-    // Проверяем, что функция возвращает правильный результат
     expect(result).toEqual([
       {
         id: 1,
@@ -74,8 +70,6 @@ describe('fetchBySearch', () => {
 describe('fetchBeerByParams', () => {
   it('should fetch beer by ID', async () => {
     const beerId = 123;
-
-    // Мокаем fetch и создаем фейковый ответ
     const mockResponse = {
       id: 123,
       name: 'Beer 123',

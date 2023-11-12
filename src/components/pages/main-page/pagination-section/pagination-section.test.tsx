@@ -82,7 +82,6 @@ describe('PaginationSection', () => {
     fireEvent.click(nextBTN!);
     const query = new URLSearchParams(window.location.search);
     const page = query.get('page');
-    console.log('location.pathname', location.pathname);
     waitFor(() => {
       expect(page).toBe('2');
     });

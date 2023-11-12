@@ -3,6 +3,7 @@ import '../../../../index.css';
 import { BeerContextValue, useBeerData } from '../../../contexts/beer-context';
 
 const SearchSection: React.FC = () => {
+  localStorage.setItem('search', '');
   const [inputValue, setInputValue] = React.useState<string>('');
   const beerData = useBeerData() as BeerContextValue;
 
@@ -13,12 +14,14 @@ const SearchSection: React.FC = () => {
   return (
     <div className="form-input form-input-with-button">
       <button
+        data-testid="search-button"
         className="button glyphicon glyphicon-search"
         onClick={() => {
           beerData.handleSearch(inputValue);
         }}
       ></button>
       <input
+        data-testid="search-input"
         className="input"
         type="text"
         value={inputValue}

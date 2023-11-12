@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">32% </span>
+                <span class="strong">88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/25</span>
+                <span class='fraction'>22/25</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">33.33% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>1/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">32% </span>
+                <span class="strong">88% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/25</span>
+                <span class='fraction'>22/25</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -94,23 +94,23 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Outlet } from 'react-router-dom';
@@ -118,24 +118,24 @@ import { BeerContextValue, useBeerData } from '../../../contexts/beer-context';
 import ResultsSection from '../result-section/result-section';
 import '../../../../index.css';
 &nbsp;
-const BeerSection = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const beerData = useBeerData() as BeerContextValue;</span>
-<span class="cstat-no" title="statement not covered" >  const beerOnPage = beerData.searchResults.length;</span>
-<span class="cstat-no" title="statement not covered" >  if (beerOnPage === 0) {</span>
-<span class="cstat-no" title="statement not covered" >    return &lt;h1&gt;There is no beer found&lt;/h1&gt;;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+const BeerSection = () =&gt; {
+  const beerData = useBeerData() as BeerContextValue;
+  const beerOnPage = beerData.searchResults.length;
+  if (beerOnPage === 0) {
+    return &lt;h1&gt;There is no beer found&lt;/h1&gt;;
+<span class="branch-0 cbranch-no" title="branch not covered" >  }</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;div</span>
 <span class="cstat-no" title="statement not covered" >      className="beer-section"</span>
-<span class="cstat-no" title="statement not covered" >      style={{ gridTemplateColumns: beerData!.detailedBeer ? '1fr 1fr' : '1fr' }}</span>
-<span class="cstat-no" title="statement not covered" >    &gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;ResultsSection /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="beer-info"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Outlet /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+      style={{ gridTemplateColumns: beerData!.detailedBeer ? <span class="branch-0 cbranch-no" title="branch not covered" >'1fr 1fr' : '1fr' }</span>}
+    &gt;
+      &lt;ResultsSection /&gt;
+      &lt;div className="beer-info"&gt;
+        &lt;Outlet /&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};
 &nbsp;
 export default BeerSection;
 &nbsp;</pre></td></tr></table></pre>
@@ -145,7 +145,7 @@ export default BeerSection;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-10T18:42:23.080Z
+                at 2023-11-11T17:31:19.959Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router-dom';
-import { BeerContextValue, useBeerData } from '../../../contexts/beer-context';
-import ResultsSection from '../result-section/result-section';
 import '../../../../index.css';
+import { BeerContextValue, useBeerData } from '../../../contexts/beer-context';
+import DetailedBeerItem from '../detailed-beer-item/detailed-beer-item';
+import ResultsSection from '../result-section/result-section';
 
 const BeerSection = () => {
   const beerData = useBeerData() as BeerContextValue;
@@ -12,12 +12,10 @@ const BeerSection = () => {
   return (
     <div
       className="beer-section"
-      style={{ gridTemplateColumns: beerData!.detailedBeer ? '1fr 1fr' : '1fr' }}
+      style={{ gridTemplateColumns: beerData!.detailedBeerID ? '1fr 1fr' : '1fr' }}
     >
       <ResultsSection />
-      <div className="beer-info">
-        <Outlet />
-      </div>
+      <div className="beer-info">{beerData.detailedBeerID && <DetailedBeerItem />}</div>
     </div>
   );
 };

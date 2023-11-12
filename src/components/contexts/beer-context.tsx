@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { BASE_API_URL, BASE_ITEM_PER_PAGE, BASE_PAGE } from '../constants/constants';
+import { fetchBeerByParams, fetchBySearch } from '../api/api';
+import { BASE_ITEM_PER_PAGE, BASE_PAGE } from '../constants/constants';
 import { DetailedBeerData } from '../pages/main-page/detailed-beer-item/detailed-beer-item';
 import { Beer } from '../pages/main-page/result-section/result-section';
 
@@ -17,6 +18,8 @@ export type BeerContextValue = {
   pageTerm: number;
   handlePreviousPage: () => void;
   handleNextPage: () => void;
+  detailedBeerID: number | undefined;
+  handleDetailsOpen: (id?: number) => void;
 };
 
 export const BeerContext = createContext<BeerContextValue | null>(null);
@@ -39,55 +42,21 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   );
   const [searchResults, setSearchResults] = useState<Beer[]>([]);
   const [pageTerm, setPageTerm] = useState<number>(Number(pageQueryParam) || BASE_PAGE);
-
   const [isNextPageAvailable, setIsNextPageAvailable] = useState(true);
-
   const [detailedBeer, setDetailedBeer] = useState<DetailedBeerData | null>(null);
+  const [detailedBeerID, setDetailedBeerID] = useState<number | undefined>(Number(params.id));
   const currentParams = Object.fromEntries(queryParams.entries());
 
   useEffect(() => {
-    const fetchSearchResults = async (): Promise<void> => {
+    const fetchSearchResults = async () => {
       setIsResultsLoading(true);
-
-      let url = `${BASE_API_URL}beers`;
-
-      const params = new URLSearchParams();
-      if (searchTerm && searchTerm.trim() !== '') {
-        params.set('beer_name', searchTerm.trim());
-      }
-      if (itemPerPage && itemPerPage.trim() !== '') {
-        params.set('per_page', itemPerPage.trim());
-      }
-      if (pageTerm && pageTerm.toString().trim() !== '') {
-        params.set('page', pageTerm.toString().trim());
-      }
-      if (params.toString() !== '') {
-        url += `?${params.toString()}`;
-      }
-
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        if (data.length < itemPerPage) {
-          setIsNextPageAvailable(false);
-        } else {
-          setIsNextPageAvailable(true);
-        }
-        setSearchResults(
-          data.map((beer: Beer) => {
-            return {
-              id: beer.id,
-              name: beer.name,
-              tagline: beer.tagline,
-              description: beer.description,
-              abv: beer.abv,
-              image_url: beer.image_url,
-            };
-          })
-        );
-        setIsResultsLoading(false);
-      } catch (error) {
-        console.error('Error fetching search results:', error);
+      const data = await fetchBySearch(searchTerm, pageTerm, itemPerPage);
+      setSearchResults(data);
+      setIsResultsLoading(false);
+      if (data.length < +itemPerPage) {
+        setIsNextPageAvailable(false);
+      } else {
+        setIsNextPageAvailable(true);
       }
     };
     fetchSearchResults();
@@ -95,23 +64,17 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 
   useEffect(() => {
     const fetchDetailedBeerData = async (): Promise<void> => {
-      setIsDetailsLoading(true);
-      try {
-        const response = await fetch(`${BASE_API_URL}beers/${params.id || ''}`);
-        const data = await response.json();
-        setDetailedBeer(data[0]);
+      if (detailedBeerID) {
+        setIsDetailsLoading(true);
+        const data = await fetchBeerByParams(detailedBeerID);
+        setDetailedBeer(data);
         setIsDetailsLoading(false);
-      } catch (error) {
-        console.error('Error fetching detailed beer data:', error);
+      } else {
+        setDetailedBeer(null);
       }
     };
-    if (params.id) {
-      fetchDetailedBeerData();
-    }
-    if (!params.id) {
-      setDetailedBeer(null);
-    }
-  }, [params.id]);
+    fetchDetailedBeerData();
+  }, [detailedBeerID]);
 
   useEffect(() => {
     setPageTerm(pageQueryParam ? Number(pageQueryParam) : BASE_PAGE);
@@ -120,6 +83,7 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
       setSearchTerm(searchQueryParam);
       localStorage.setItem('searchTerm', searchQueryParam);
     } else {
+      setSearchTerm('');
       localStorage.removeItem('searchTerm');
     }
   }, [pageQueryParam, itemPerPageQueryParam, searchQueryParam]);
@@ -132,6 +96,10 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     };
     const queryParams = new URLSearchParams(paramsToSet).toString();
     navigate(`/?${queryParams}`);
+  }
+
+  function handleDetailsOpen(id?: number) {
+    setDetailedBeerID(id);
   }
 
   const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -151,6 +119,7 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   };
 
   const handleNextPage = () => {
+    setPageTerm((prev) => prev + 1);
     const newPage = pageTerm + 1;
     const paramsToSet = {
       ...currentParams,
@@ -159,6 +128,7 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     const queryParams = new URLSearchParams(paramsToSet).toString();
     navigate(`/?${queryParams}`);
   };
+
   return (
     <BeerContext.Provider
       value={{
@@ -174,6 +144,8 @@ const BeerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
         isResultsLoading,
         isDetailsLoading,
         detailedBeer,
+        handleDetailsOpen,
+        detailedBeerID,
       }}
     >
       {children}

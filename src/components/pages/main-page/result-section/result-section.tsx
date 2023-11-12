@@ -21,6 +21,7 @@ const ResultsSection: React.FC = () => {
   const currentParams = Object.fromEntries(queryParams.entries());
 
   const handleBeerClick = (beer: Beer) => {
+    beerData.handleDetailsOpen(beer.id);
     navigate(`/details/${beer.id}`, currentParams);
   };
   return beerData.isResultsLoading ? (

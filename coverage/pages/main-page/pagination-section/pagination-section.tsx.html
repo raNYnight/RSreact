@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">24.13% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/29</span>
+                <span class='fraction'>29/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>1/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">24.13% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/29</span>
+                <span class='fraction'>29/29</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -97,57 +97,57 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
 import { BeerContextValue, useBeerData } from '../../../contexts/beer-context';
 import './pagination.css';
 &nbsp;
-const PaginationSection: React.FC = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const beerData = useBeerData() as BeerContextValue;</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="pagination-section"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;button</span>
-<span class="cstat-no" title="statement not covered" >        onClick={beerData.handlePreviousPage}</span>
-<span class="cstat-no" title="statement not covered" >        disabled={beerData.pageTerm === 1}</span>
-<span class="cstat-no" title="statement not covered" >      &gt;</span>
-<span class="cstat-no" title="statement not covered" >        Prev page</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/button&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;span&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;h4&gt;{beerData.pageTerm}&lt;/h4&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;button</span>
-<span class="cstat-no" title="statement not covered" >        onClick={beerData.handleNextPage}</span>
-<span class="cstat-no" title="statement not covered" >        disabled={!beerData.isNextPageAvailable}</span>
-<span class="cstat-no" title="statement not covered" >      &gt;</span>
-<span class="cstat-no" title="statement not covered" >        Next Page</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/button&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >};</span>
+const PaginationSection: React.FC = () =&gt; {
+  const beerData = useBeerData() as BeerContextValue;
+&nbsp;
+  return (
+    &lt;div className="pagination-section"&gt;
+      &lt;button
+        onClick={beerData.handlePreviousPage}
+        disabled={beerData.pageTerm === 1}
+      &gt;
+        Prev page
+      &lt;/button&gt;
+      &lt;span&gt;
+        &lt;h4&gt;{beerData.pageTerm}&lt;/h4&gt;
+      &lt;/span&gt;
+      &lt;button
+        onClick={beerData.handleNextPage}
+        disabled={!beerData.isNextPageAvailable}
+      &gt;
+        Next Page
+      &lt;/button&gt;
+    &lt;/div&gt;
+  );
+};
 &nbsp;
 export default PaginationSection;
 &nbsp;</pre></td></tr></table></pre>
@@ -157,7 +157,7 @@ export default PaginationSection;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-11-10T18:42:23.080Z
+                at 2023-11-11T17:31:19.959Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

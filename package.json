@@ -52,7 +52,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "prepush-if-changed"
+      "pre-push": "pre-push"
     }
   },
   "lint-staged": {
@@ -62,10 +62,10 @@
       "git add -A"
     ]
   },
-  "prepush-if-changed": {
+  "pre-push": {
     "src/**/*.{js,jsx,ts,tsx}": [
-      "vitest --reporter=verbose",
-      "vitest run --coverage"
+      "vitest --reporter=verbose --run",
+      "vitest --run --coverage"
     ]
   }
 }

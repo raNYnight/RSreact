@@ -1,5 +1,6 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import { BeerContextValue, useBeerData } from '../../../contexts/beer-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFetchBeerByIdQuery } from '../../../../slices/apiSlice';
+import { selectDetailedBeerID, setDetailedBeerID } from '../../../../slices/appSlice';
 import Spinner from '../../../load-spinner/spinner';
 import './detailed-beer.css';
 
@@ -25,34 +26,44 @@ export interface BeerIngridients {
 }
 
 function DetailedBeerItem() {
-  const beerData = useBeerData() as BeerContextValue;
-  // const beerData = useContext(BeerContext);
-  const beer = beerData.detailedBeer;
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const handleClick = () => {
-    const queryParams = new URLSearchParams(location.search);
-    navigate({ pathname: '/', search: queryParams.toString() });
-    beerData.handleDetailsOpen();
+  const detailedBeerID = useSelector(selectDetailedBeerID);
+  const dispatch = useDispatch();
+  const {
+    data: beer,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess,
+  } = useFetchBeerByIdQuery(detailedBeerID!);
+  const handleCloseDetails = () => {
+    dispatch(setDetailedBeerID(null));
   };
-  if (!beerData.detailedBeerID || !beer) {
+
+  if (isError) {
+    handleCloseDetails();
     return null;
   }
-
-  return (
-    <div
-      className="detailed-beer"
-      data-testid="detailed-beer"
-    >
-      {beerData.isDetailsLoading ? (
+  if (isLoading || isFetching) {
+    return (
+      <div
+        className="detailed-beer"
+        data-testid="detailed-beer"
+      >
         <Spinner />
-      ) : (
+      </div>
+    );
+  }
+  if (isSuccess) {
+    return (
+      <div
+        className="detailed-beer"
+        data-testid="detailed-beer"
+      >
         <>
           <button
             data-testid="close-detailed-beer"
             className="button glyphicon glyphicon-remove"
-            onClick={handleClick}
+            onClick={handleCloseDetails}
           ></button>
           <h1>{beer.name}</h1>
           <img
@@ -82,9 +93,9 @@ function DetailedBeerItem() {
             <b>Contributed by:</b> {beer.contributed_by}
           </p>
         </>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 export default DetailedBeerItem;

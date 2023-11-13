@@ -1,24 +1,42 @@
 import React from 'react';
-import { BeerContextValue, useBeerData } from '../../../contexts/beer-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectItemPerPage, selectPage, selectSearch, setPage } from '../../../../slices/appSlice';
 import './pagination.css';
+import { useFetchBySearchQuery } from '../../../../slices/apiSlice';
 
 const PaginationSection: React.FC = () => {
-  const beerData = useBeerData() as BeerContextValue;
+  const dispatch = useDispatch();
+  const pageValue = useSelector(selectPage);
+  const searchValue = useSelector(selectSearch);
+  const itemPerPageValue = useSelector(selectItemPerPage);
+  const { data: fetchedBeers } = useFetchBySearchQuery({
+    search: searchValue,
+    page: pageValue,
+    itemPerPage: itemPerPageValue,
+  });
+
+  const handlePreviousPage = () => {
+    pageValue > 1 && dispatch(setPage(pageValue - 1));
+  };
+
+  const handleNextPage = () => {
+    dispatch(setPage(pageValue + 1));
+  };
 
   return (
     <div className="pagination-section">
       <button
-        onClick={beerData.handlePreviousPage}
-        disabled={beerData.pageTerm === 1}
+        onClick={handlePreviousPage}
+        disabled={pageValue === 1}
       >
         Prev page
       </button>
       <span>
-        <h4>{beerData.pageTerm}</h4>
+        <h4>{pageValue}</h4>
       </span>
       <button
-        onClick={beerData.handleNextPage}
-        disabled={!beerData.isNextPageAvailable}
+        onClick={handleNextPage}
+        disabled={!fetchedBeers || fetchedBeers.length < +itemPerPageValue}
       >
         Next Page
       </button>

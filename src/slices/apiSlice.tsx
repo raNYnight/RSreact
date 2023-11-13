@@ -11,6 +11,7 @@ export const beerApi = createApi({
   endpoints: (builder) => ({
     fetchBeerById: builder.query<DetailedBeerData, number>({
       query: (id) => `beers/${id}`,
+      transformResponse: (response: DetailedBeerData[]) => response[0],
     }),
     fetchBySearch: builder.query<Beer[], { search: string; page: number; itemPerPage: string }>({
       query: ({ search, page, itemPerPage }) => {

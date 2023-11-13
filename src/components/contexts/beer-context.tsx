@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { fetchBeerByParams, fetchBySearch } from '../api/api';
+import { fetchBeerByParams, fetchBySearch } from '../../api/api';
 import { BASE_ITEM_PER_PAGE, BASE_PAGE } from '../constants/constants';
 import { DetailedBeerData } from '../pages/main-page/detailed-beer-item/detailed-beer-item';
 import { Beer } from '../pages/main-page/result-section/result-section';

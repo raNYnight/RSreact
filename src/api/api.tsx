@@ -1,6 +1,6 @@
-import { BASE_API_URL, BASE_ITEM_PER_PAGE, BASE_PAGE } from '../constants/constants';
-import { DetailedBeerData } from '../pages/main-page/detailed-beer-item/detailed-beer-item';
-import { Beer } from '../pages/main-page/result-section/result-section';
+import { BASE_API_URL, BASE_ITEM_PER_PAGE, BASE_PAGE } from '../components/constants/constants';
+import { DetailedBeerData } from '../components/pages/main-page/detailed-beer-item/detailed-beer-item';
+import { Beer } from '../components/pages/main-page/result-section/result-section';
 
 export const fetchBySearch = async (
   search: string,

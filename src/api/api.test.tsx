@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 import { fetchBeerByParams, fetchBySearch } from './api';
-import { BASE_API_URL } from '../constants/constants';
+import { BASE_API_URL } from '../components/constants/constants';
 
 describe('fetchBySearch', () => {
   it('should fetch beers by search query', async () => {

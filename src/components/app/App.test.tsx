@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 import { describe, it } from 'vitest';
 import { screen, render } from '@testing-library/react';
 import App from './App';

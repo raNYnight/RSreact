@@ -9,7 +9,7 @@ export interface initialState {
   detailedBeerID: number | null;
 }
 
-const initialState: initialState = {
+export const initialState: initialState = {
   search: '',
   page: BASE_PAGE,
   itemPerPage: BASE_ITEM_PER_PAGE,

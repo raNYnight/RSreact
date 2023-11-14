@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -10,28 +11,42 @@ import {
 } from '../../../../slices/appSlice';
 import { BASE_ITEM_PER_PAGE, BASE_PAGE } from '../../../constants/constants';
 import '../../../../index.css';
+import { useNavigate } from 'react-router-dom';
 
 const SearchSection: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const searchValue = useSelector(selectSearch || '');
   const itemsPerPageValue = useSelector(selectItemPerPage || BASE_ITEM_PER_PAGE);
   localStorage.setItem('search', '');
   const [inputValue, setInputValue] = React.useState<string>('');
 
   useEffect(() => {
-    setInputValue(searchValue);
-  }, [searchValue]);
+    const searchParams = new URLSearchParams(location.search);
+    itemsPerPageValue === '25'
+      ? searchParams.delete('items_per_page')
+      : searchParams.set('items_per_page', itemsPerPageValue.toString());
+    searchValue ? searchParams.set('search', searchValue) : searchParams.delete('search');
+    searchParams.set('page', BASE_PAGE.toString());
+    navigate(`?${searchParams.toString()}`);
+  }, [itemsPerPageValue, searchValue]);
+
+  const handleSearch = () => {
+    dispatch(setDetailedBeerID(null));
+    dispatch(setPage(BASE_PAGE));
+    dispatch(setSearch(inputValue));
+  };
+  const handleItemsPerPage = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setItemPerPage(e.target.value));
+    dispatch(setPage(BASE_PAGE));
+  };
 
   return (
     <div className="form-input form-input-with-button">
       <button
         data-testid="search-button"
         className="button glyphicon glyphicon-search"
-        onClick={() => {
-          dispatch(setDetailedBeerID(null));
-          dispatch(setPage(BASE_PAGE));
-          dispatch(setSearch(inputValue));
-        }}
+        onClick={handleSearch}
       ></button>
       <input
         data-testid="search-input"
@@ -49,9 +64,7 @@ const SearchSection: React.FC = () => {
           data-testid="items-per-page-input"
           id="itemsPerPage"
           value={itemsPerPageValue}
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-            dispatch(setItemPerPage(e.target.value));
-          }}
+          onChange={handleItemsPerPage}
         >
           <option value="5">5</option>
           <option value="10">10</option>

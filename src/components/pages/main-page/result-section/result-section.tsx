@@ -1,6 +1,5 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import '../../../../index.css';
 import { useFetchBySearchQuery } from '../../../../slices/apiSlice';
 import {
@@ -38,15 +37,8 @@ const ResultsSection: React.FC = () => {
     itemPerPage: itemPerPageValue,
   });
 
-  const navigate = useNavigate();
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-
   const handleBeerClick = (beer: Beer) => {
     dispatch(setDetailedBeerID(beer.id));
-    const currentParams = Object.fromEntries(queryParams.entries());
-
-    navigate(`/details/${beer.id}`, currentParams);
   };
 
   if (isLoading || isFetching) {
@@ -58,30 +50,23 @@ const ResultsSection: React.FC = () => {
     ) : (
       <ul className="beer-list">
         {fetchedBeers.map((beer) => (
-          <NavLink
+          <li
             onClick={() => handleBeerClick(beer)}
-            to={{
-              pathname: `details/${beer.id}`,
-              search: queryParams.toString(),
-            }}
             key={beer.id}
+            className="beer-card"
+            data-testid="beer-card"
           >
-            <li
-              className="beer-card"
-              data-testid="beer-card"
-            >
-              <img
-                src={beer.image_url}
-                alt={beer.name}
-              />
-              <div>
-                <h3>{beer.name}</h3>
-                <h4>{beer.tagline}</h4>
-                <p>{beer.description}</p>
-                <span>abv: {beer.abv}</span>
-              </div>
-            </li>
-          </NavLink>
+            <img
+              src={beer.image_url}
+              alt={beer.name}
+            />
+            <div>
+              <h3>{beer.name}</h3>
+              <h4>{beer.tagline}</h4>
+              <p>{beer.description}</p>
+              <span>abv: {beer.abv}</span>
+            </div>
+          </li>
         ))}
       </ul>
     );

@@ -1,14 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectItemPerPage, selectPage, selectSearch, setPage } from '../../../../slices/appSlice';
-import './pagination.css';
 import { useFetchBySearchQuery } from '../../../../slices/apiSlice';
-import { useNavigate } from 'react-router-dom';
+import {
+  selectItemPerPage,
+  selectPage,
+  selectSearch,
+  setDetailedBeerID,
+  setPage,
+} from '../../../../slices/appSlice';
+import './pagination.css';
 
 const PaginationSection: React.FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const pageValue = useSelector(selectPage);
   const searchValue = useSelector(selectSearch);
   const itemPerPageValue = useSelector(selectItemPerPage);
@@ -18,20 +22,13 @@ const PaginationSection: React.FC = () => {
     itemPerPage: itemPerPageValue,
   });
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    if (pageValue !== 1) {
-      searchParams.set('page', pageValue.toString());
-      navigate(`?${searchParams.toString()}`);
-    }
-  }, [pageValue]);
-
   const handlePreviousPage = () => {
-    pageValue > 1 && dispatch(setPage(pageValue - 1));
+    pageValue > 1 && (dispatch(setPage(pageValue - 1)), dispatch(setDetailedBeerID(null)));
   };
 
   const handleNextPage = () => {
     dispatch(setPage(pageValue + 1));
+    dispatch(setDetailedBeerID(null));
   };
 
   return (

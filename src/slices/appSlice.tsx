@@ -13,7 +13,7 @@ export const initialState: initialState = {
   search: '',
   page: BASE_PAGE,
   itemPerPage: BASE_ITEM_PER_PAGE,
-  detailedBeerID: null,
+  detailedBeerID: 1,
 };
 
 const appSlice = createSlice({

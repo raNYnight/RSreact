@@ -1,59 +1,73 @@
-// import { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useLocation, useNavigate } from 'react-router-dom';
-// import {
-//   selectDetailedBeerID,
-//   selectItemPerPage,
-//   selectPage,
-//   selectSearch,
-//   setDetailedBeerID,
-//   setItemPerPage,
-//   setPage,
-//   setSearch,
-// } from '../../slices/appSlice';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  selectDetailedBeerID,
+  selectItemPerPage,
+  selectPage,
+  selectSearch,
+  setDetailedBeerID,
+  setItemPerPage,
+  setPage,
+  setSearch,
+} from '../../slices/appSlice';
+import { BASE_ITEM_PER_PAGE, BASE_PAGE } from '../constants/constants';
 
-// const QueryParamsHandler = () => {
-//   const navigate = useNavigate();
-//   const location = useLocation();
-//   const dispatch = useDispatch();
+const QueryParamsHandler = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-//   const pageValue = useSelector(selectPage);
-//   const searchValue = useSelector(selectSearch);
-//   const itemPerPageValue = useSelector(selectItemPerPage);
-//   const detailedBeerID = useSelector(selectDetailedBeerID);
+  const pageValue = useSelector(selectPage);
+  const searchValue = useSelector(selectSearch);
+  const itemsPerPageValue = useSelector(selectItemPerPage);
+  const detailedBeerID = useSelector(selectDetailedBeerID);
 
-//   //   useEffect(() => {
-//   //     const searchParams = new URLSearchParams(location.search);
-//   //     const search = searchParams.get('search') || '';
-//   //     const page = parseInt(searchParams.get('page') || '1', 10);
-//   //     const itemPerPage = searchParams.get('items_per_page') || '';
-//   //     const detailedBeerID = parseInt(searchParams.get('details') || '', 10);
+  const [searchParams] = useSearchParams();
 
-//   //     dispatch(setSearch(search));
-//   //     dispatch(setPage(page));
-//   //     dispatch(setItemPerPage(itemPerPage));
-//   //     dispatch(setDetailedBeerID(detailedBeerID));
-//   //   }, [location.search, dispatch]);
+  useEffect(() => {
+    const searchQuery = searchParams.get('search') || '';
+    const pageQuery = parseInt(searchParams.get('page') || BASE_PAGE.toString(), 10);
+    const itemsPerPageQuery = searchParams.get('items_per_page') || BASE_ITEM_PER_PAGE;
+    const detailedBeer = searchParams.get('details');
+    const detailedBeerQuery = detailedBeer ? +detailedBeer : null;
 
-//   useEffect(() => {
-//     const searchParams = new URLSearchParams();
-//     if (searchValue) {
-//       searchParams.set('search', searchValue);
-//     }
-//     if (pageValue !== 1) {
-//       searchParams.set('page', pageValue.toString());
-//     }
-//     if (itemPerPageValue !== '25') {
-//       searchParams.set('items_per_page', itemPerPageValue);
-//     }
-//     if (detailedBeerID) {
-//       searchParams.set('details', detailedBeerID.toString());
-//     }
+    dispatch(setSearch(searchQuery));
+    dispatch(setPage(pageQuery));
+    dispatch(setItemPerPage(itemsPerPageQuery));
+    dispatch(setDetailedBeerID(detailedBeerQuery));
+  }, []);
 
-//     navigate(`?${searchParams.toString()}`);
-//   }, [pageValue, searchValue, itemPerPageValue, detailedBeerID, navigate]);
+  useEffect(() => {
+    itemsPerPageValue === '25'
+      ? searchParams.delete('items_per_page')
+      : searchParams.set('items_per_page', itemsPerPageValue.toString());
+    searchValue ? searchParams.set('search', searchValue) : searchParams.delete('search');
+    navigate(`?${searchParams.toString()}`);
+  }, [itemsPerPageValue, searchValue]);
 
-//   return null;
-// };
+  useEffect(() => {
+    if (pageValue === 1) {
+      searchParams.delete('page');
+      navigate(`?${searchParams.toString()}`);
+    } else {
+      searchParams.set('page', pageValue.toString());
 
-// export default QueryParamsHandler;
+      navigate(`?${searchParams.toString()}`);
+    }
+  }, [pageValue]);
+
+  useEffect(() => {
+    if (detailedBeerID) {
+      searchParams.set('details', detailedBeerID.toString());
+      navigate(`?${searchParams.toString()}`);
+    } else {
+      searchParams.delete('details');
+      navigate(`?${searchParams.toString()}`);
+    }
+  }, [detailedBeerID]);
+
+  return null;
+};
+
+export default QueryParamsHandler;

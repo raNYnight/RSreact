@@ -1,32 +1,33 @@
 import SearchSection from './search-section/search-section';
 
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import '../../../index.css';
+import { setDetailedBeerID, setItemPerPage, setPage, setSearch } from '../../../slices/appSlice';
+import { BASE_ITEM_PER_PAGE, BASE_PAGE } from '../../constants/constants';
 import BeerSection from './beer-section/beer-section';
 import Footer from './footer/footer';
 import PaginationSection from './pagination-section/pagination-section';
-import { useDispatch } from 'react-redux';
-import { setDetailedBeerID, setPage, setSearch, setItemPerPage } from '../../../slices/appSlice';
-import { BASE_PAGE, BASE_ITEM_PER_PAGE } from '../../constants/constants';
 
 const MainPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleReturnToMainPage = () => {
     dispatch(setDetailedBeerID(null));
     dispatch(setPage(BASE_PAGE));
     dispatch(setSearch(''));
     dispatch(setItemPerPage(BASE_ITEM_PER_PAGE));
+    navigate('/');
   };
   return (
     <div className="container">
       <header className="header">
-        <Link
-          to={'/'}
+        <h1
           style={{ textDecoration: 'none' }}
           onClick={handleReturnToMainPage}
         >
-          <h1>Beer academy</h1>
-        </Link>
+          Beer academy
+        </h1>
       </header>
       <main className="main">
         <h2>Beer catalogue</h2>

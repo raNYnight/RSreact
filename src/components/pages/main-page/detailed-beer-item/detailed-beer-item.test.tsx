@@ -17,7 +17,6 @@ describe('Detailed beer', () => {
       return HttpResponse.json(mockBeersDefaultParams);
     }),
     http.get('https://api.punkapi.com/v2/beers/1', async () => {
-      console.log('here');
       await delay(0);
       return HttpResponse.json([mockDetailedBeer]);
     }),

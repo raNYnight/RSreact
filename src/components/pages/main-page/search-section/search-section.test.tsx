@@ -38,7 +38,6 @@ describe('SearchSection', () => {
 
   it('Check that the component retrieves the value from the local storage upon mounting.', () => {
     localStorage.setItem('search', 'test');
-    console.log(localStorage);
     renderWithProviders(<SearchSection />);
     const input = screen.getByTestId('search-input') as HTMLInputElement;
     expect(input.value).toBe(localStorage.search);

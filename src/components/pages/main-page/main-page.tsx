@@ -1,10 +1,9 @@
+import { resetApp } from '../../../slices/appSlice';
 import SearchSection from './search-section/search-section';
 
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import '../../../index.css';
-import { setDetailedBeerID, setItemPerPage, setPage, setSearch } from '../../../slices/appSlice';
-import { BASE_ITEM_PER_PAGE, BASE_PAGE } from '../../constants/constants';
 import BeerSection from './beer-section/beer-section';
 import Footer from './footer/footer';
 import PaginationSection from './pagination-section/pagination-section';
@@ -13,10 +12,7 @@ const MainPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleReturnToMainPage = () => {
-    dispatch(setDetailedBeerID(null));
-    dispatch(setPage(BASE_PAGE));
-    dispatch(setSearch(''));
-    dispatch(setItemPerPage(BASE_ITEM_PER_PAGE));
+    dispatch(resetApp());
     navigate('/');
   };
   return (

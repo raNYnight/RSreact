@@ -13,7 +13,7 @@ export const initialState: initialState = {
   search: '',
   page: BASE_PAGE,
   itemPerPage: BASE_ITEM_PER_PAGE,
-  detailedBeerID: 1,
+  detailedBeerID: null,
 };
 
 const appSlice = createSlice({
@@ -32,10 +32,13 @@ const appSlice = createSlice({
     setDetailedBeerID: (state, action: PayloadAction<number | null>) => {
       state.detailedBeerID = action.payload;
     },
+    resetApp: () => {
+      return initialState;
+    },
   },
 });
 
-export const { setSearch, setPage, setItemPerPage, setDetailedBeerID } = appSlice.actions;
+export const { setSearch, setPage, setItemPerPage, setDetailedBeerID, resetApp } = appSlice.actions;
 export const selectSearch = (state: RootState) => state.app.search;
 export const selectPage = (state: RootState) => state.app.page;
 export const selectItemPerPage = (state: RootState) => state.app.itemPerPage;

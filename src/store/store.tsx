@@ -1,19 +1,24 @@
-import { configureStore } from '@reduxjs/toolkit';
-import appReducer from '../slices/appSlice';
+import { PreloadedState, combineReducers, configureStore } from '@reduxjs/toolkit';
 import { beerApi } from '../slices/apiSlice';
-import { setupListeners } from '@reduxjs/toolkit/query';
+import appReducer from '../slices/appSlice';
 
-const store = configureStore({
-  reducer: {
-    app: appReducer,
-    [beerApi.reducerPath]: beerApi.reducer,
-  },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(beerApi.middleware),
+const rootReducer = combineReducers({
+  app: appReducer,
+  [beerApi.reducerPath]: beerApi.reducer,
 });
+const setupStore = (preloadedState?: PreloadedState<RootState>) =>
+  configureStore({
+    reducer: rootReducer,
+    preloadedState,
 
-setupListeners(store.dispatch);
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({ immutableCheck: false, serializableCheck: false }).concat(
+        beerApi.middleware
+      ),
+  });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore['dispatch'];
 
-export default store;
+export default setupStore;

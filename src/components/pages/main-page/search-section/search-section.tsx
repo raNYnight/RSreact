@@ -17,14 +17,18 @@ const SearchSection: React.FC = () => {
   // const navigate = useNavigate();
   const searchValue = useSelector(selectSearch || '');
   const itemsPerPageValue = useSelector(selectItemPerPage || BASE_ITEM_PER_PAGE);
-  localStorage.setItem('search', '');
-  const [inputValue, setInputValue] = React.useState<string>('');
+  const [inputValue, setInputValue] = React.useState<string>(localStorage.getItem('search') || '');
 
+  // useEffect(() => {
+  //   setInputValue(localStorage.getItem('search') || '');
+  // }, []);
   useEffect(() => {
-    setInputValue(searchValue);
+    localStorage.setItem('search', searchValue);
+    setInputValue(localStorage.getItem('search') || '');
   }, [searchValue]);
 
   const handleSearch = () => {
+    localStorage.setItem('search', inputValue);
     dispatch(setDetailedBeerID(null));
     dispatch(setPage(BASE_PAGE));
     dispatch(setSearch(inputValue));

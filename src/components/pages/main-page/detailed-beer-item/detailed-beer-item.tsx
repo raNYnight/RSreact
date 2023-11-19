@@ -65,7 +65,7 @@ function DetailedBeerItem() {
             className="button glyphicon glyphicon-remove"
             onClick={handleCloseDetails}
           ></button>
-          <h1>{beer.name}</h1>
+          <h1 data-testid="detailed-beer-name">{beer.name}</h1>
           <img
             src={beer.image_url}
             alt={beer.name}

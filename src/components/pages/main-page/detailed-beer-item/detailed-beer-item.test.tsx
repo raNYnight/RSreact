@@ -4,11 +4,14 @@ import { setupServer } from 'msw/node';
 import { mockBeersDefaultParams, mockDetailedBeer } from '../../../../test-utils/mock-data';
 import { renderWithProviders } from '../../../../test-utils/provider-util';
 import BeerSection from '../beer-section/beer-section';
+import { vi } from 'vitest';
+import * as useFetchBeerByIdQuery from '../../../../slices/apiSlice';
 
 // Tests for the Detailed card component //
 // Check that a loading indicator is displayed while fetching data;++
 // Make sure the detailed card component correctly displays the detailed card data;++
 // Ensure that clicking the close button hides the component.++
+//Check that click makes additional api call++
 
 describe('Detailed beer', () => {
   const handlers = [
@@ -77,5 +80,15 @@ describe('Detailed beer', () => {
       const spinner = screen.queryByTestId('spinner');
       expect(spinner).toBeInTheDocument();
     });
+  });
+
+  it('Check that click makes additional api call', async () => {
+    const spyApi = vi.spyOn(useFetchBeerByIdQuery, 'useFetchBeerByIdQuery');
+    renderWithProviders(<BeerSection />);
+    const beerCards = await screen.findAllByTestId('beer-card');
+    fireEvent.click(beerCards[0]);
+    const detailedBeer = await screen.findByTestId('detailed-beer');
+    expect(detailedBeer).toBeInTheDocument();
+    expect(spyApi).toHaveBeenCalled();
   });
 });

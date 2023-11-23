@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import '../styles/Home.module.css';
+import styles from '@/styles/Home.module.css';
+
 export interface DetailedBeerData {
   id: number;
   name: string;
@@ -29,13 +30,13 @@ const DetailedBeerItem = (props: detailedBeerItemProps) => {
   const detailedBeer = props.detailedBeer!;
   return (
     <div
-      className="detailed-beer"
+      className={styles['detailed-beer']}
       data-testid="detailed-beer"
     >
       <>
         <button
           data-testid="close-detailed-beer"
-          className="button glyphicon glyphicon-remove"
+          className="bi bi-x-square"
         ></button>
         <h1 data-testid="detailed-beer-name">{detailedBeer.name}</h1>
         <img

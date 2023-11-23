@@ -1,7 +1,6 @@
 import { fetchBySearch, fetchDetailedBeer } from '@/api/api';
 import { BASE_ITEM_PER_PAGE, BASE_PAGE } from '@/components/constants';
-import DetailedBeerItem, { DetailedBeerData } from '@/components/detailed-beer-item';
-import Footer from '@/components/footer';
+import RootLayout from '@/components/layout';
 import PaginationSection from '@/components/pagination-section';
 import ResultsSection, { Beer } from '@/components/result-section';
 import SearchSection from '@/components/search-section';
@@ -10,21 +9,23 @@ import { GetServerSideProps } from 'next';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import { ParsedUrlQuery } from 'querystring';
+import { NextPageWithLayout } from './_app';
+import DetailedBeerItem, { DetailedBeerData } from '@/components/detailed-beer-item';
 const inter = Inter({ subsets: ['latin'] });
 
-interface Props {
+interface HomeGSSProps {
   fetchedBeers: Beer[];
   detailedBeer: DetailedBeerData | null;
 }
 
-interface Query extends ParsedUrlQuery {
+export interface Query extends ParsedUrlQuery {
   page?: string;
   per_page?: string;
   search?: string;
   details?: string;
 }
 
-export const getServerSideProps: GetServerSideProps<Props, Query> = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps<HomeGSSProps, Query> = async ({ query }) => {
   const page = typeof query.page === 'string' ? query.page : BASE_PAGE.toString();
   const itemPerPage = typeof query.per_page === 'string' ? query.per_page : BASE_ITEM_PER_PAGE;
   const search = Array.isArray(query.search) ? query.search.join('_') : query.search || '';
@@ -48,7 +49,7 @@ export const getServerSideProps: GetServerSideProps<Props, Query> = async ({ que
   }
 };
 
-export default function Home({ fetchedBeers, detailedBeer }: Props) {
+const Home: NextPageWithLayout<HomeGSSProps> = ({ fetchedBeers, detailedBeer }) => {
   return (
     <>
       <Head>
@@ -70,36 +71,37 @@ export default function Home({ fetchedBeers, detailedBeer }: Props) {
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
         ></link>
       </Head>
-      <div className={styles.container}>
-        <header className={styles.header}>
-          <h1 style={{ textDecoration: 'none' }}>Beer academy</h1>
-        </header>
-        <main className={styles.main}>
-          <h2>Beer catalogue</h2>
+      <main className={styles.main}>
+        <h2>Beer catalogue</h2>
 
-          <p>
-            The Beer Academy is a renowned institution for beer enthusiasts, offering educational
-            programs, workshops, and tastings to explore the art and science of brewing beer. Cheers
-            to beer education!
-          </p>
+        <p>
+          The Beer Academy is a renowned institution for beer enthusiasts, offering educational
+          programs, workshops, and tastings to explore the art and science of brewing beer. Cheers
+          to beer education!
+        </p>
 
-          <SearchSection />
+        <SearchSection />
 
-          <PaginationSection />
-          <div
-            className={styles['beer-section']}
-            style={{ gridTemplateColumns: detailedBeer ? '1fr 1fr ' : '1fr' }}
-          >
-            <ResultsSection fetchedBeers={fetchedBeers} />
-            {detailedBeer && (
-              <div className="beer-info">
-                <DetailedBeerItem detailedBeer={detailedBeer} />
-              </div>
-            )}
-          </div>
-        </main>
-        <Footer />
-      </div>
+        <PaginationSection />
+        <div
+          className={styles['beer-section']}
+          // style={{ gridTemplateColumns: '1fr 1fr' }}
+          style={{ gridTemplateColumns: detailedBeer ? '1fr 1fr ' : '1fr' }}
+        >
+          <ResultsSection fetchedBeers={fetchedBeers} />
+          {detailedBeer && (
+            <div className="beer-info">
+              <DetailedBeerItem detailedBeer={detailedBeer} />
+            </div>
+          )}
+        </div>
+      </main>
     </>
   );
-}
+};
+
+Home.getLayout = (page) => {
+  return <RootLayout>{page}</RootLayout>;
+};
+
+export default Home;

@@ -1,4 +1,4 @@
-import DetailedBeerItem from './detailed-beer-item';
+// import DetailedBeerItem from './detailed-beer-item';
 import ResultsSection from './result-section';
 import '../styles/Home.module.css';
 

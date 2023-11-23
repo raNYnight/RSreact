@@ -1,0 +1,314 @@
+.container {
+  position: relative;
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+  align-items: center;
+  min-height: calc(100vh - 3.2rem);
+}
+
+.header {
+  align-self: stretch;
+}
+
+.header h1 {
+  color: #a1ccd1;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 5.2rem;
+  font-weight: 300;
+  letter-spacing: 3px;
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+.header h1::before,
+.header h1::after {
+  display: block;
+  content: '';
+  height: 3px;
+  width: 4rem;
+  background-color: #a1ccd1;
+  position: absolute;
+  top: calc(50% - 1px);
+}
+
+.header h1::before {
+  left: 0;
+}
+
+.header h1::after {
+  right: 0;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+}
+
+.main h2 {
+  display: inline-block;
+  padding: 1rem 0;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  font-size: 2.4rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 500;
+}
+
+.main > p {
+  font-size: 1.5rem;
+  text-align: center;
+  line-height: 1.6;
+  width: 80%;
+}
+.searchButton {
+  background-color: transparent;
+  border: none;
+}
+
+.formInput {
+  padding: 0.4em 0.7em;
+  position: relative;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+}
+
+.formInput .input {
+  background: none;
+  border: none;
+  width: 100%;
+  background: transparent;
+  width: 50%;
+}
+.input:focus {
+  outline: none;
+  letter-spacing: 3px;
+  font-weight: 500;
+}
+
+.formInputWithButton .button {
+  background: none;
+  border: none;
+  margin: 0.65em;
+  position: absolute;
+  top: 0;
+  right: 50%;
+}
+
+.formInputWithButton .input {
+  padding-right: 1.4em;
+}
+
+.beer-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  padding: 0;
+}
+.beer-list a {
+  text-decoration: none;
+  color: #252525;
+}
+.beer-section {
+  display: grid;
+  gap: 3rem;
+}
+
+.beer-card {
+  padding: 0 5px;
+  display: flex;
+  gap: 3.2rem;
+  border: solid 2px #e9b384;
+}
+.beer-card:hover {
+  background-color: #f1ab6e61;
+}
+.active {
+  background-color: #f1ab6e61;
+}
+
+.beer-card img {
+  width: 12rem;
+  height: 20rem;
+  aspect-ratio: 0.3;
+  align-self: center;
+}
+
+.beer-card div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 0.4rem 0;
+}
+
+.beer-card h3 {
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.beer-card p {
+  font-size: 1.4rem;
+  font-weight: 300;
+  font-style: italic;
+  margin-bottom: auto;
+}
+
+.beer-card span {
+  display: block;
+  font-size: 1.6rem;
+}
+
+@media (max-width: 600px) {
+  .beer-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detailed-beer {
+  border: 2px solid #e9b384;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: sticky;
+  top: 3rem;
+}
+
+.detailed-beer li {
+  margin-left: 10px;
+  list-style: '-';
+}
+
+.detailed-beer img {
+  align-self: center;
+  width: 5rem;
+  max-height: 20rem;
+}
+.detailed-beer h1 {
+  align-self: center;
+}
+
+.detailed-beer button {
+  width: 0;
+  right: 20px;
+  top: 3px;
+  align-self: flex-end;
+  font-size: 2rem;
+  border: none;
+}
+
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css');
+
+.footer {
+  background-color: #7c9d96;
+  padding: 20px;
+  padding-bottom: 5px;
+  color: #fff;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-logo {
+  text-decoration: none;
+  color: #fff;
+  font-size: 2rem;
+}
+
+.contacts-list {
+  width: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.contact-item a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+}
+
+.contact-item i {
+  margin-right: 5px;
+}
+
+.pagination-section {
+  padding: 0.4em 0.7em;
+  position: relative;
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pagination-section button {
+  background-color: #e9b384;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.pagination-section button:hover {
+  background-color: #f1ab6e61;
+}
+
+.pagination-section button:disabled {
+  background-color: #7c9d96;
+  cursor: not-allowed;
+}
+
+.pagination-section span {
+  margin-right: 8px;
+}
+
+.page-not-found {
+  /* center div */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.page-not-found h2 {
+  color: #000;
+}
+
+.page-not-found h1 {
+  text-align: center;
+  font-size: 4rem;
+}
+
+.btn-info {
+  text-align: center;
+  display: block;
+  border: 2px solid #a1ccd1;
+  background-color: #a1ccd1;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.btn-info:hover {
+  background-color: #7c9d96;
+  border: 2px solid #7c9d96;
+}

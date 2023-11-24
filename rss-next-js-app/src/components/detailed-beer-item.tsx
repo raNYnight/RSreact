@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '@/styles/Home.module.css';
+import { useRouter } from 'next/router';
 
 export interface DetailedBeerData {
   id: number;
@@ -28,6 +29,7 @@ interface detailedBeerItemProps {
 
 const DetailedBeerItem = (props: detailedBeerItemProps) => {
   const detailedBeer = props.detailedBeer!;
+  const router = useRouter();
   return (
     <div
       className={styles['detailed-beer']}
@@ -37,6 +39,12 @@ const DetailedBeerItem = (props: detailedBeerItemProps) => {
         <button
           data-testid="close-detailed-beer"
           className="bi bi-x-square"
+          onClick={() => {
+            delete router.query.details;
+            router.push({ pathname: router.pathname, query: router.query }, undefined, {
+              scroll: false,
+            });
+          }}
         ></button>
         <h1 data-testid="detailed-beer-name">{detailedBeer.name}</h1>
         <img

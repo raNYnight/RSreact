@@ -72,6 +72,8 @@
 .searchButton {
   background-color: transparent;
   border: none;
+  font-size: 1.25rem;
+  font-weight: bold;
 }
 
 .formInput {

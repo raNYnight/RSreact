@@ -1,14 +1,30 @@
 import React from 'react';
 import styles from '@/styles/Home.module.css';
+import { useRouter } from 'next/router';
+import { BASE_ITEM_PER_PAGE, BASE_PAGE } from './constants';
 
 const SearchSection: React.FC = () => {
-  const [inputValue, setInputValue] = React.useState<string>('');
-  console.log(styles);
+  const router = useRouter();
+  const [inputValue, setInputValue] = React.useState<string>((router.query.search as string) || '');
+  const [isNextPageAvailable, setNextPageAvailable] = React.useState<boolean>(true);
+
+  const handleSearch = () => {
+    const currentQuery = { ...router.query };
+    inputValue ? (currentQuery.search = inputValue) : delete currentQuery.search;
+    currentQuery.page = '1';
+    delete currentQuery.details;
+    router.push({
+      pathname: router.pathname,
+      query: currentQuery,
+    });
+  };
+
   return (
     <div className={`${styles.formInput} ${styles.formInputWithButton}`}>
       <button
         data-testid="search-button"
         className={styles.searchButton}
+        onClick={handleSearch}
       >
         <i className="bi bi-search"></i>
       </button>
@@ -25,8 +41,17 @@ const SearchSection: React.FC = () => {
       <div>
         <label htmlFor="itemsPerPage">Items per page:</label>
         <select
+          value={router.query.per_page || BASE_ITEM_PER_PAGE}
           data-testid="items-per-page-input"
           id="itemsPerPage"
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+            router.query.per_page = e.target.value;
+            delete router.query.details;
+            router.push({
+              pathname: router.pathname,
+              query: { ...router.query, page: BASE_PAGE.toString() },
+            });
+          }}
         >
           <option value="5">5</option>
           <option value="10">10</option>

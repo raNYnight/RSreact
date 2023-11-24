@@ -11,6 +11,7 @@ import Head from 'next/head';
 import { ParsedUrlQuery } from 'querystring';
 import { NextPageWithLayout } from './_app';
 import DetailedBeerItem, { DetailedBeerData } from '@/components/detailed-beer-item';
+import { useRouter } from 'next/router';
 const inter = Inter({ subsets: ['latin'] });
 
 interface HomeGSSProps {
@@ -50,6 +51,9 @@ export const getServerSideProps: GetServerSideProps<HomeGSSProps, Query> = async
 };
 
 const Home: NextPageWithLayout<HomeGSSProps> = ({ fetchedBeers, detailedBeer }) => {
+  const router = useRouter();
+  const perPage = Number(router.query.per_page) || +BASE_ITEM_PER_PAGE;
+  const isNextPageAvailable = fetchedBeers.length < perPage;
   return (
     <>
       <Head>
@@ -71,31 +75,19 @@ const Home: NextPageWithLayout<HomeGSSProps> = ({ fetchedBeers, detailedBeer }) 
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
         ></link>
       </Head>
-      <main className={styles.main}>
-        <h2>Beer catalogue</h2>
-
-        <p>
-          The Beer Academy is a renowned institution for beer enthusiasts, offering educational
-          programs, workshops, and tastings to explore the art and science of brewing beer. Cheers
-          to beer education!
-        </p>
-
-        <SearchSection />
-
-        <PaginationSection />
-        <div
-          className={styles['beer-section']}
-          // style={{ gridTemplateColumns: '1fr 1fr' }}
-          style={{ gridTemplateColumns: detailedBeer ? '1fr 1fr ' : '1fr' }}
-        >
-          <ResultsSection fetchedBeers={fetchedBeers} />
-          {detailedBeer && (
-            <div className="beer-info">
-              <DetailedBeerItem detailedBeer={detailedBeer} />
-            </div>
-          )}
-        </div>
-      </main>
+      <PaginationSection isNextPageAvailable={isNextPageAvailable} />
+      <div
+        className={styles['beer-section']}
+        // style={{ gridTemplateColumns: '1fr 1fr' }}
+        style={{ gridTemplateColumns: detailedBeer ? '1fr 1fr ' : '1fr' }}
+      >
+        <ResultsSection fetchedBeers={fetchedBeers} />
+        {detailedBeer && (
+          <div className="beer-info">
+            <DetailedBeerItem detailedBeer={detailedBeer} />
+          </div>
+        )}
+      </div>
     </>
   );
 };

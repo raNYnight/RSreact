@@ -25,8 +25,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
 
           <SearchSection />
 
-          <PaginationSection />
-
           {children}
         </main>
         <Footer />

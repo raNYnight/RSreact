@@ -2,6 +2,7 @@ import React from 'react';
 import styles from '@/styles/Home.module.css';
 import Link from 'next/link';
 import { Head } from 'next/document';
+import { useRouter } from 'next/router';
 
 export interface Beer {
   id: number;
@@ -17,33 +18,35 @@ interface ResultsSectionProps {
 }
 
 const ResultsSection: React.FC<ResultsSectionProps> = ({ fetchedBeers }) => {
+  const router = useRouter();
   return (
     <>
-      <ul className={styles['beer-list']}>
+      <ul
+        className={styles['beer-list']}
+        id="beer-list"
+      >
         {fetchedBeers.map((beer) => (
-          <li
+          <Link
             key={beer.id}
             className={styles['beer-card']}
             data-testid="beer-card"
+            href={{
+              pathname: `/`,
+              query: { ...router.query, details: beer.id },
+            }}
+            scroll={false}
           >
-            <Link
-              href={{
-                pathname: `/`,
-                query: { details: beer.id },
-              }}
-            >
-              <img
-                src={beer.image_url}
-                alt={beer.name}
-              />
-              <div>
-                <h3>{beer.name}</h3>
-                <h4>{beer.tagline}</h4>
-                <p>{beer.description}</p>
-                <span>abv: {beer.abv}</span>
-              </div>
-            </Link>
-          </li>
+            <img
+              src={beer.image_url}
+              alt={beer.name}
+            />
+            <div>
+              <h3>{beer.name}</h3>
+              <h4>{beer.tagline}</h4>
+              <p>{beer.description}</p>
+              <span>abv: {beer.abv}</span>
+            </div>
+          </Link>
         ))}
       </ul>
     </>

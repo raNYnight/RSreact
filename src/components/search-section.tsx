@@ -1,11 +1,15 @@
 import styles from '@/styles/Home.module.css';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BASE_ITEM_PER_PAGE, BASE_PAGE } from './constants';
 
 const SearchSection: React.FC = () => {
   const router = useRouter();
   const [inputValue, setInputValue] = React.useState<string>((router.query.search as string) || '');
+
+  useEffect(() => {
+    setInputValue((router.query.search as string) || '');
+  }, [router.query.search]);
 
   const handleSearch = () => {
     const currentQuery = { ...router.query };

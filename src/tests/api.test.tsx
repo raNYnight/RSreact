@@ -1,6 +1,6 @@
 import { BASE_API_URL } from '@/components/constants';
-import { vi } from 'vitest';
-import { fetchBySearch, fetchDetailedBeer } from './api';
+import { fetchBySearch, fetchDetailedBeer } from '../api/api';
+import { describe, vi, it, expect } from 'vitest';
 
 describe('fetchBySearch', () => {
   it('should fetch beers by search query', async () => {
@@ -67,7 +67,7 @@ describe('fetchBySearch', () => {
   });
 });
 
-describe('fetchBeerByParams', () => {
+describe('fetchDetailedBeer', () => {
   it('should fetch beer by ID', async () => {
     const beerId = 123;
     const mockResponse = {

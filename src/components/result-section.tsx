@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
 import styles from '@/styles/Home.module.css';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -19,6 +19,9 @@ interface ResultsSectionProps {
 
 const ResultsSection: React.FC<ResultsSectionProps> = ({ fetchedBeers }) => {
   const router = useRouter();
+  if (fetchedBeers.length === 0) {
+    return <h3>No results were found. Please try another search.</h3>;
+  }
   return (
     <>
       <ul
@@ -36,10 +39,11 @@ const ResultsSection: React.FC<ResultsSectionProps> = ({ fetchedBeers }) => {
             }}
             scroll={false}
           >
-            <Image
-              loading="lazy"
+            <img
               src={beer.image_url}
               alt={beer.name}
+              width={100}
+              height={200}
             />
             <div>
               <h3>{beer.name}</h3>

@@ -6,10 +6,10 @@ import { BASE_PAGE } from './constants';
 import { useEffect } from 'react';
 
 interface PaginationSectionProps {
-  isNextPageAvailable: boolean;
+  isNextPageDisabled: boolean;
 }
 
-const PaginationSection: React.FC<PaginationSectionProps> = ({ isNextPageAvailable }) => {
+const PaginationSection: React.FC<PaginationSectionProps> = ({ isNextPageDisabled }) => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = React.useState(Number(router.query.page) || BASE_PAGE);
 
@@ -41,6 +41,7 @@ const PaginationSection: React.FC<PaginationSectionProps> = ({ isNextPageAvailab
   return (
     <div className={styles['pagination-section']}>
       <button
+        data-testid="prev-page-button"
         onClick={handlePreviousPage}
         disabled={currentPage === 1}
       >
@@ -50,8 +51,9 @@ const PaginationSection: React.FC<PaginationSectionProps> = ({ isNextPageAvailab
         <h4>{router.query.page}</h4>
       </span>
       <button
-        onClick={handleNextPage}
-        disabled={isNextPageAvailable}
+        data-testid="next-page-button"
+        onClick={() => handleNextPage()}
+        disabled={isNextPageDisabled}
       >
         Next Page
       </button>

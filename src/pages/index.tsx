@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps<HomeGSSProps, Query> = async
   const page = typeof query.page === 'string' ? query.page : BASE_PAGE.toString();
   const itemPerPage = typeof query.per_page === 'string' ? query.per_page : BASE_ITEM_PER_PAGE;
   const search = Array.isArray(query.search) ? query.search.join('_') : query.search || '';
-  const detailedBeerID = query.details ? parseInt(query.details as string, 10) : null;
+  const detailedBeerID = query.details ? +(query.details as string) : null;
 
   try {
     const [fetchedBeers, detailedBeer] = await Promise.all([
@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps<HomeGSSProps, Query> = async
 const Home: NextPageWithLayout<HomeGSSProps> = ({ fetchedBeers, detailedBeer }) => {
   const router = useRouter();
   const perPage = Number(router.query.per_page) || +BASE_ITEM_PER_PAGE;
-  const isNextPageAvailable = fetchedBeers.length < perPage;
+  const isNextPageDisabled = fetchedBeers.length < perPage;
   return (
     <>
       <Head>
@@ -73,10 +73,10 @@ const Home: NextPageWithLayout<HomeGSSProps> = ({ fetchedBeers, detailedBeer }) 
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
         ></link>
       </Head>
-      <PaginationSection isNextPageAvailable={isNextPageAvailable} />
+      <PaginationSection isNextPageDisabled={isNextPageDisabled} />
       <div
         className={styles['beer-section']}
-        // style={{ gridTemplateColumns: '1fr 1fr' }}
+        data-testid="beer-section"
         style={{ gridTemplateColumns: detailedBeer ? '1fr 1fr ' : '1fr' }}
       >
         <ResultsSection fetchedBeers={fetchedBeers} />

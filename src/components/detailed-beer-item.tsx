@@ -51,6 +51,13 @@ const DetailedBeerItem = (props: detailedBeerItemProps) => {
           loading="lazy"
           src={detailedBeer.image_url}
           alt={detailedBeer.name}
+          sizes="30vw"
+          style={{
+            width: '12rem',
+            height: 'auto',
+          }}
+          width={100}
+          height={100}
         />
         <h3>{detailedBeer.tagline}</h3>
         <h3>abv: {detailedBeer.abv}%</h3>

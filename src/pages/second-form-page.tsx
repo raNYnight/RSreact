@@ -5,6 +5,7 @@ import Header from '../components/header/header';
 import { Field } from '../components/form-field/form-field';
 import { formSchema } from '../utils/yup-validation-schema/yup-validation-schema';
 import GenderField from '../components/form-gender-field/form-gender-field';
+import { CheckField } from '../components/form-check-field/form-check-field';
 
 const SecondFormPage = () => {
   // const dispatch = useDispatch();
@@ -68,7 +69,14 @@ const SecondFormPage = () => {
   //   console.log(state);
   // };
 
-  const onFieldChange = useCallback((fieldName: string, value: string) => {
+  const onFieldChange = useCallback((fieldName: string, value: string | boolean) => {
+    setState((prevProps) => ({
+      ...prevProps,
+      [fieldName]: value,
+    }));
+  }, []);
+
+  const onFieldCheck = useCallback((fieldName: string, value: boolean) => {
     setState((prevProps) => ({
       ...prevProps,
       [fieldName]: value,
@@ -151,18 +159,18 @@ const SecondFormPage = () => {
           hasError={errors.email}
           onFieldChange={onFieldChange}
         />
+        <CheckField
+          labelText="Accept terms"
+          fieldName="acceptTerms"
+          fieldType="checkbox"
+          fieldValue={state.acceptTerms}
+          hasError={errors.acceptTerms}
+          onFieldCheck={onFieldChange}
+        />
         {/* 
     
        
-        <div className="form-control">
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={state.email}
-            onChange={handleInputChange}
-          />
-        </div>
+       
         <div className="form-control">
           <label>Accept terms</label>
           <input

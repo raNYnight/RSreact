@@ -1,4 +1,4 @@
-import { number, object, ref, string } from 'yup';
+import { boolean, number, object, ref, string } from 'yup';
 
 const getCharacterValidationError = (str: string) => {
   return `Your password must have at least 1 ${str} character`;
@@ -18,4 +18,5 @@ export const formSchema = object().shape({
     .oneOf([ref('password')], 'Passwords does not match'),
   gender: string().required('Gender is required'),
   email: string().email('Invalid email address').required('Email is required'),
+  acceptTerms: boolean().oneOf([true], 'Checkbox must be checked'),
 });

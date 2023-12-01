@@ -1,17 +1,11 @@
 import { Link } from 'react-router-dom';
 import '../index.css';
+import Header from '../components/header/header';
 
 function MainPage(): JSX.Element {
   return (
     <div className="container">
-      <header className="header">
-        <Link
-          to={'/'}
-          style={{ textDecoration: 'none' }}
-        >
-          <h1>Beer academy</h1>
-        </Link>
-      </header>
+      <Header />
       <main className="main">
         <Link to={'/first-form'}>
           <h2>Form with uncontrolled components </h2>

@@ -119,3 +119,21 @@ a:hover {
 ::-webkit-scrollbar-thumb:hover {
   background: #e9b384;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 40rem;
+  gap: 1.2rem;
+}
+
+.form-control {
+  display: flex;
+  justify-content: space-between;
+}
+
+label {
+  font-weight: 500;
+  font-size: 1.8rem;
+}

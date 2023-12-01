@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import '../../index.css';
 import FirstFormPage from '../pages/first-form-page';
 import MainPage from '../pages/main-page';
 import SecondFormPage from '../pages/second-form-page';

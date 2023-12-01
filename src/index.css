@@ -124,16 +124,88 @@ form {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 40rem;
+  /* max-width: 40rem; */
   gap: 1.2rem;
 }
 
 .form-control {
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  align-items: center; */
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  border: none;
 }
 
-label {
+.form-control label,
+.form-control-image label,
+.form-control-image p,
+.form-control-country label {
+  /* flex-basis: 40%; */
+  text-align: left;
+  font-size: 2rem;
   font-weight: 500;
-  font-size: 1.8rem;
+}
+
+.form-control input,
+.form-control select {
+  /* flex-basis: 60%; */
+  height: 3rem;
+}
+.form-control-image {
+  display: flex;
+  border: none;
+  gap: 1.2rem;
+}
+
+.preview {
+  display: flex;
+  width: 20rem;
+  gap: 1.2rem;
+  height: 20rem;
+}
+.preview img {
+  width: 100%;
+}
+
+/* input type file  */
+input[type='file'] {
+  width: 120px;
+}
+
+.form-control-image img {
+  border: #252525 1px solid;
+}
+.form-control-image p {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+.suggestion {
+  border-bottom: #252525 1px solid;
+}
+
+.selected {
+  background-color: #e9b384;
+}
+
+.suggestions {
+  font-family: 'Helvetica', 'Comic Sans', serif;
+  list-style: none;
+  height: 20rem;
+  overflow-y: scroll;
+}
+
+.form-control-country span {
+  text-align: right;
+  margin-top: 3px;
+}
+.form-control-country {
+  display: flex;
+  border: none;
+}
+
+.form-control-country label {
+  margin-right: 1.2rem;
+}
+.form-control-country input {
+  max-height: 3rem;
 }

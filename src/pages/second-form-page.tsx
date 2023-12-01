@@ -1,14 +1,16 @@
 import React, { useCallback, useState } from 'react';
-import { InitFormData, updateSecondFormData } from '../slices/second-form-slice';
 import { useDispatch } from 'react-redux';
-import Header from '../components/header/header';
-import { Field } from '../components/form-field/form-field';
-import { formSchema } from '../utils/yup-validation-schema/yup-validation-schema';
-import GenderField from '../components/form-gender-field/form-gender-field';
+import AutocompleteCountry from '../components/autocomplete-selector/autocomplete-selector';
 import { CheckField } from '../components/form-check-field/form-check-field';
+import { Field } from '../components/form-field/form-field';
+import GenderField from '../components/form-gender-field/form-gender-field';
+import ImageUploadField from '../components/form-picture-field/form-picture-field';
+import Header from '../components/header/header';
+import { InitFormData, updateSecondFormData } from '../slices/second-form-slice';
+import { formSchema } from '../utils/yup-validation-schema/yup-validation-schema';
 
 const SecondFormPage = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [state, setState] = useState<InitFormData>({
     name: '',
     age: '',
@@ -29,59 +31,26 @@ const SecondFormPage = () => {
     confirmPassword: false,
     gender: false,
     acceptTerms: false,
-    profilePicture: null,
+    profilePicture: false,
     country: false,
   });
 
-  // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = event.target;
-  //   setState((prevProps) => ({
-  //     ...prevProps,
-  //     [name]: value,
-  //   }));
-  // };
-
-  // const handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const { value } = event.target;
-  //   setState((prevProps) => ({
-  //     ...prevProps,
-  //     gender: value,
-  //   }));
-  // };
-
-  // const handlePictureUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files![0];
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     const base64Image = reader.result;
-  //     setState((prevProps) => ({
-  //       ...prevProps,
-  //       profilePicture: base64Image,
-  //     }));
-  //   };
-
-  //   reader.readAsDataURL(file);
-  // };
-
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   dispatch(updateSecondFormData(state));
-  //   console.log(state);
-  // };
-
-  const onFieldChange = useCallback((fieldName: string, value: string | boolean) => {
+  const onCountryChange = (value: string) => {
     setState((prevProps) => ({
       ...prevProps,
-      [fieldName]: value,
+      country: value,
     }));
-  }, []);
+  };
 
-  const onFieldCheck = useCallback((fieldName: string, value: boolean) => {
-    setState((prevProps) => ({
-      ...prevProps,
-      [fieldName]: value,
-    }));
-  }, []);
+  const onFieldChange = useCallback(
+    (fieldName: string, value: string | boolean | ArrayBuffer | null) => {
+      setState((prevProps) => ({
+        ...prevProps,
+        [fieldName]: value,
+      }));
+    },
+    []
+  );
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -91,6 +60,7 @@ const SecondFormPage = () => {
     });
 
     if (isFormValid) {
+      dispatch(updateSecondFormData(state));
       console.log('Form is legit');
     } else {
       formSchema.validate(state, { abortEarly: false }).catch((err) => {
@@ -106,7 +76,6 @@ const SecondFormPage = () => {
       });
     }
   };
-
   return (
     <div className="container">
       <Header />
@@ -130,15 +99,15 @@ const SecondFormPage = () => {
         />
         <Field
           labelText="Password"
-          fieldType="text"
+          fieldType="password"
           fieldName="password"
           fieldValue={state.password}
           hasError={errors.password}
           onFieldChange={onFieldChange}
         />
         <Field
-          labelText="confirmPassword"
-          fieldType="text"
+          labelText="Confirm password"
+          fieldType="password"
           fieldName="confirmPassword"
           fieldValue={state.confirmPassword}
           hasError={errors.confirmPassword}
@@ -167,41 +136,19 @@ const SecondFormPage = () => {
           hasError={errors.acceptTerms}
           onFieldCheck={onFieldChange}
         />
-        {/* 
-    
-       
-       
-        <div className="form-control">
-          <label>Accept terms</label>
-          <input
-            type="checkbox"
-            name="acceptTerms"
-            checked={state.acceptTerms}
-            onChange={(event) =>
-              setState((prevProps) => ({
-                ...prevProps,
-                acceptTerms: event.target.checked,
-              }))
-            }
-          />
-        </div>
-        <div className="form-control">
-          <label>Profile picture</label>
-          <input
-            type="file"
-            name="profilePicture"
-            onChange={handlePictureUpload}
-          />
-        </div>
-        <div className="form-control">
-          <label>Country</label>
-          <input
-            type="text"
-            name="country"
-            value={state.country}
-            onChange={handleInputChange}
-          />
-        </div> */}
+        <ImageUploadField
+          labelText="Profile picture"
+          fieldName="profilePicture"
+          fieldType="file"
+          fieldValue={state.profilePicture}
+          hasError={errors.profilePicture}
+          onPictureUpload={onFieldChange}
+        />
+        <AutocompleteCountry
+          onCountryChange={onCountryChange}
+          hasError={errors.country}
+        />
+
         <div className="form-control">
           <label></label>
           <button type="submit">Submit</button>

@@ -19,7 +19,7 @@ export const CheckField = (props: CheckFieldProps) => {
     [props.onFieldCheck, props.fieldName]
   );
   return (
-    <fieldset>
+    <fieldset className="form-control">
       <label>{props.labelText}</label>
       <input
         type={props.fieldType}

@@ -1,10 +1,12 @@
 import { PreloadedState, combineReducers, configureStore } from '@reduxjs/toolkit';
 import FirstFormReducer from '../slices/first-form-slice';
 import SecondFormReducer from '../slices/second-form-slice';
+import CountriesReducer from '../slices/countries-slice';
 
 const rootReducer = combineReducers({
   firstForm: FirstFormReducer,
   secondForm: SecondFormReducer,
+  countries: CountriesReducer,
 });
 const setupStore = (preloadedState?: PreloadedState<RootState>) =>
   configureStore({

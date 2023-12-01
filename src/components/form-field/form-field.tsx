@@ -19,13 +19,8 @@ export const Field = (props: FieldProps) => {
     [props.onFieldChange, props.fieldName]
   );
   return (
-    <fieldset>
-      <label
-        htmlFor={props.fieldName}
-        className="form-control"
-      >
-        {props.labelText}
-      </label>
+    <fieldset className="form-control">
+      <label htmlFor={props.fieldName}>{props.labelText}</label>
 
       <input
         type={props.fieldType}

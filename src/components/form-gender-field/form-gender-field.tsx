@@ -17,7 +17,7 @@ export const GenderField = (props: GenderFieldProps) => {
     [props.onGenderChange, props.fieldName]
   );
   return (
-    <fieldset>
+    <fieldset className="form-control">
       <label>Gender</label>
       <select
         name="gender"

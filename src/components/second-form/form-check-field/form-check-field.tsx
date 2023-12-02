@@ -1,33 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ChangeEvent, useCallback } from 'react';
-import '../../index.css';
+import '../../../index.css';
 
-interface FieldProps {
+interface CheckFieldProps {
   fieldName: string;
   labelText: string;
   fieldType: string;
-  fieldValue: string;
+  fieldValue: boolean;
   hasError: boolean;
-  onFieldChange: (fieldName: string, value: string) => void;
+  onFieldCheck: (fieldName: string, value: boolean) => void;
 }
 
-export const Field = (props: FieldProps) => {
-  const onFieldChange = useCallback(
+export const CheckField = (props: CheckFieldProps) => {
+  const onFieldCheck = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      props.onFieldChange(props.fieldName, event.target.value);
+      props.onFieldCheck(props.fieldName, event.target.checked);
     },
-    [props.onFieldChange, props.fieldName]
+    [props.onFieldCheck, props.fieldName]
   );
   return (
     <fieldset className="form-control">
-      <label htmlFor={props.fieldName}>{props.labelText}</label>
-
+      <label>{props.labelText}</label>
       <input
         type={props.fieldType}
         name={props.fieldName}
-        id={props.fieldName}
-        onChange={onFieldChange}
-        value={props.fieldValue}
+        checked={props.fieldValue}
+        onChange={onFieldCheck}
       />
 
       {props.hasError && (

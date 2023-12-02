@@ -134,6 +134,7 @@ form {
   display: grid;
   grid-template-columns: 1fr 2fr 2fr;
   border: none;
+  position: relative;
 }
 
 .form-control label,
@@ -208,4 +209,28 @@ input[type='file'] {
 }
 .form-control-country input {
   max-height: 3rem;
+}
+
+fieldset p {
+  color: red;
+}
+
+.form-control-submit {
+  margin: 0 auto;
+}
+.form-control-submit button {
+  font-size: 2rem;
+  padding: 1rem 4rem;
+  background-color: #a1ccd1;
+  border: none;
+  color: #252525;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: 500;
+}
+
+.password-strength {
+  position: absolute;
+  top: 35px;
+  left: 165px;
 }

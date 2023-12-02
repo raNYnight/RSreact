@@ -41,15 +41,12 @@ export const formSchema = object().shape({
 
       const fileSizeInKB = calculateFileSize(value);
       const maxSizeInKB = 2000; // 2 МБ
-      console.log('fileSizeInKB', fileSizeInKB);
       return fileSizeInKB <= maxSizeInKB;
     })
     .test('fileType', 'Недопустимое расширение файла', (value) => {
       if (!value) return true;
       const acceptedExtensions = ['jpeg', 'jpg', 'png'];
       const extension = value.split(';')[0].split('/')[1];
-      console.log('ext', extension);
-
       return acceptedExtensions.includes(extension);
     }),
   country: string().required('Country is required'),

@@ -1,13 +1,16 @@
-import React, { useCallback, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import AutocompleteCountry from '../components/autocomplete-selector/autocomplete-selector';
-import { CheckField } from '../components/form-check-field/form-check-field';
-import { Field } from '../components/form-field/form-field';
-import GenderField from '../components/form-gender-field/form-gender-field';
-import ImageUploadField from '../components/form-picture-field/form-picture-field';
+import { ValidationError } from 'yup';
 import Header from '../components/header/header';
+import AutocompleteCountry from '../components/second-form/autocomplete-selector/autocomplete-selector';
+import { CheckField } from '../components/second-form/form-check-field/form-check-field';
+import { Field } from '../components/second-form/form-field/form-field';
+import GenderField from '../components/second-form/form-gender-field/form-gender-field';
+import ImageUploadField from '../components/second-form/form-picture-field/form-picture-field';
 import { InitFormData, updateSecondFormData } from '../slices/second-form-slice';
 import { formSchema } from '../utils/yup-validation-schema/yup-validation-schema';
+import PasswordField from '../components/second-form/password-field/password-field';
 
 const SecondFormPage = () => {
   const dispatch = useDispatch();
@@ -35,22 +38,31 @@ const SecondFormPage = () => {
     country: false,
   });
 
-  const onCountryChange = (value: string) => {
-    setState((prevProps) => ({
-      ...prevProps,
-      country: value,
-    }));
+  const validateField = async (fieldName: string, state: InitFormData) => {
+    try {
+      await formSchema.validateAt(fieldName, state);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: false,
+      }));
+    } catch (err) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: true,
+      }));
+    }
   };
 
-  const onFieldChange = useCallback(
-    (fieldName: string, value: string | boolean | ArrayBuffer | null) => {
-      setState((prevProps) => ({
-        ...prevProps,
+  const onFieldChange = async (fieldName: string, value: string | boolean | ArrayBuffer | null) => {
+    setState((prevState) => {
+      const newState = {
+        ...prevState,
         [fieldName]: value,
-      }));
-    },
-    []
-  );
+      };
+      validateField(fieldName, newState);
+      return newState;
+    });
+  };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -61,19 +73,24 @@ const SecondFormPage = () => {
 
     if (isFormValid) {
       dispatch(updateSecondFormData(state));
-      console.log('Form is legit');
     } else {
-      formSchema.validate(state, { abortEarly: false }).catch((err) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const errors = err.inner.reduce((acc: any, error: { path: any }) => {
-          return {
-            ...acc,
-            [error.path]: true,
-          };
-        }, {});
-        console.log('Form is not legit');
-        setErrors(() => errors);
-      });
+      try {
+        await formSchema.validate(state, { abortEarly: false });
+      } catch (validationError) {
+        if (validationError instanceof ValidationError) {
+          const errorsToUpdate = validationError.inner.reduce((acc, error) => {
+            const path = error.path || '';
+            return {
+              ...acc,
+              [path]: true,
+            };
+          }, {});
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            ...errorsToUpdate,
+          }));
+        }
+      }
     }
   };
   return (
@@ -97,7 +114,7 @@ const SecondFormPage = () => {
           hasError={errors.age}
           onFieldChange={onFieldChange}
         />
-        <Field
+        <PasswordField
           labelText="Password"
           fieldType="password"
           fieldName="password"
@@ -145,13 +162,12 @@ const SecondFormPage = () => {
           onPictureUpload={onFieldChange}
         />
         <AutocompleteCountry
-          onCountryChange={onCountryChange}
+          onCountryChange={onFieldChange}
           hasError={errors.country}
         />
 
-        <div className="form-control">
-          <label></label>
-          <button type="submit">Submit</button>
+        <div className="form-control-submit">
+          <button type="submit">Submit form</button>
         </div>
       </form>
     </div>

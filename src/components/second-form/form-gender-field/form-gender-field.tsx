@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ChangeEvent, useCallback } from 'react';
-import '../../index.css';
+import '../../../index.css';
 interface GenderFieldProps {
   fieldName: string;
   labelText: string;

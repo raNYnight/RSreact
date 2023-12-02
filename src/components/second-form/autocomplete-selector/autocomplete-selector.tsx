@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { CountryData } from '../../slices/countries-slice';
-import { RootState } from '../../store/store';
-import '../../index.css';
+import { CountryData } from '../../../slices/countries-slice';
+import { RootState } from '../../../store/store';
+import '../../../index.css';
 import FlagEmojiToPNG from './country-flag';
 
 const AutocompleteCountry: React.FC<{
-  onCountryChange: (value: string) => void;
+  onCountryChange: (fieldName: string, value: string) => void;
   hasError: boolean;
 }> = ({ onCountryChange, hasError }) => {
   const countriesData = useSelector((state: RootState) => state.countries);
@@ -30,7 +30,7 @@ const AutocompleteCountry: React.FC<{
   const handleSuggestionClick = (suggestion: CountryData) => {
     setInputValue(suggestion.country);
     setSelectedSuggestion(suggestion);
-    onCountryChange(suggestion.country);
+    onCountryChange('country', suggestion.country);
     setSuggestions([]);
   };
   const handleInputClick = () => {
@@ -62,7 +62,6 @@ const AutocompleteCountry: React.FC<{
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       if (!(target.id === 'country-input') && !target.classList.contains('suggestion')) {
-        console.log('clicked outside');
         setSuggestions([]);
       }
     };
@@ -98,7 +97,10 @@ const AutocompleteCountry: React.FC<{
           placeholder="Select country"
           id="country-input"
         />
-        <ul className="suggestions">
+        <ul
+          className="suggestions"
+          style={{ display: suggestions.length > 0 ? 'block' : 'none' }}
+        >
           {suggestions.map((suggestion: CountryData, index: number) => {
             return (
               <li

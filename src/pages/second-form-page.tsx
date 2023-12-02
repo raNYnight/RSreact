@@ -1,18 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { ValidationError } from 'yup';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/header/header';
 import AutocompleteCountry from '../components/second-form/autocomplete-selector/autocomplete-selector';
 import { CheckField } from '../components/second-form/form-check-field/form-check-field';
 import { Field } from '../components/second-form/form-field/form-field';
 import GenderField from '../components/second-form/form-gender-field/form-gender-field';
 import ImageUploadField from '../components/second-form/form-picture-field/form-picture-field';
+import PasswordField from '../components/second-form/password-field/password-field';
 import { InitFormData, updateSecondFormData } from '../slices/second-form-slice';
 import { formSchema } from '../utils/yup-validation-schema/yup-validation-schema';
-import PasswordField from '../components/second-form/password-field/password-field';
 
 const SecondFormPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [state, setState] = useState<InitFormData>({
     name: '',
@@ -37,15 +38,17 @@ const SecondFormPage = () => {
     profilePicture: false,
     country: false,
   });
-
+  const [isFormValid, setIsFormValid] = useState(false);
   const validateField = async (fieldName: string, state: InitFormData) => {
     try {
       await formSchema.validateAt(fieldName, state);
+
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: false,
       }));
     } catch (err) {
+      setIsFormValid(false);
       setErrors((prevErrors) => ({
         ...prevErrors,
         [fieldName]: true,
@@ -66,33 +69,14 @@ const SecondFormPage = () => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const isFormValid = await formSchema.isValid(state, {
-      abortEarly: false,
-    });
-
-    if (isFormValid) {
-      dispatch(updateSecondFormData(state));
-    } else {
-      try {
-        await formSchema.validate(state, { abortEarly: false });
-      } catch (validationError) {
-        if (validationError instanceof ValidationError) {
-          const errorsToUpdate = validationError.inner.reduce((acc, error) => {
-            const path = error.path || '';
-            return {
-              ...acc,
-              [path]: true,
-            };
-          }, {});
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            ...errorsToUpdate,
-          }));
-        }
-      }
-    }
+    dispatch(updateSecondFormData(state));
+    navigate('/');
   };
+
+  useEffect(() => {
+    const hasError = Object.values(errors).some((error) => error);
+    setIsFormValid(!hasError);
+  }, [errors]);
   return (
     <div className="container">
       <Header />
@@ -167,7 +151,16 @@ const SecondFormPage = () => {
         />
 
         <div className="form-control-submit">
-          <button type="submit">Submit form</button>
+          <button
+            type="submit"
+            disabled={isFormValid}
+            style={{
+              cursor: isFormValid ? 'not-allowed' : 'pointer',
+              backgroundColor: isFormValid ? '#949494' : '#a1ccd1',
+            }}
+          >
+            Submit form
+          </button>
         </div>
       </form>
     </div>

@@ -1,23 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { InitFormData } from './second-form-slice';
+import { InitState } from './second-form-slice';
 
-export const initialState: InitFormData = {
-  name: '',
-  age: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  gender: '',
-  acceptTerms: false,
-  profilePicture: null,
-  country: '',
+export const initialState: InitState = {
+  formData: {
+    name: '',
+    age: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    gender: '',
+    acceptTerms: false,
+    profilePicture: null,
+    country: '',
+  },
+  submits: [],
 };
 
 const firstFormSlice = createSlice({
   name: 'firstForm',
   initialState,
   reducers: {
-    updateFirstFormData: (state, action) => (state = action.payload),
+    updateFirstFormData: (state, action) => {
+      state.formData = action.payload;
+      state.submits.push(action.payload);
+    },
   },
 });
 

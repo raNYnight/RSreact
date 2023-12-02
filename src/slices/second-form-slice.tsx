@@ -11,24 +11,34 @@ export interface InitFormData {
   profilePicture: string | ArrayBuffer | null;
   country: string;
 }
+export interface InitState {
+  formData: InitFormData;
+  submits: InitFormData[];
+}
 
-export const initialState: InitFormData = {
-  name: '',
-  age: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  gender: '',
-  acceptTerms: false,
-  profilePicture: null,
-  country: '',
+export const initialState: InitState = {
+  formData: {
+    name: '',
+    age: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    gender: '',
+    acceptTerms: false,
+    profilePicture: null,
+    country: '',
+  },
+  submits: [],
 };
 
 const secondFormSlice = createSlice({
   name: 'secondForm',
   initialState,
   reducers: {
-    updateSecondFormData: (state, action) => (state = action.payload),
+    updateSecondFormData: (state, action) => {
+      state.formData = action.payload;
+      state.submits.push(action.payload);
+    },
   },
 });
 

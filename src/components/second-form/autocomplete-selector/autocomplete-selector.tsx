@@ -6,9 +6,10 @@ import '../../../index.css';
 import FlagEmojiToPNG from './country-flag';
 
 const AutocompleteCountry: React.FC<{
-  onCountryChange: (fieldName: string, value: string) => void;
+  inputRef?: React.RefObject<HTMLInputElement>;
+  onCountryChange?: (fieldName: string, value: string) => void;
   hasError: boolean;
-}> = ({ onCountryChange, hasError }) => {
+}> = ({ onCountryChange, hasError, inputRef }) => {
   const countriesData = useSelector((state: RootState) => state.countries);
   const [inputValue, setInputValue] = useState<string>('');
   const [suggestions, setSuggestions] = useState<CountryData[]>([]);
@@ -30,7 +31,9 @@ const AutocompleteCountry: React.FC<{
   const handleSuggestionClick = (suggestion: CountryData) => {
     setInputValue(suggestion.country);
     setSelectedSuggestion(suggestion);
-    onCountryChange('country', suggestion.country);
+    if (onCountryChange) {
+      onCountryChange('country', suggestion.country);
+    }
     setSuggestions([]);
   };
   const handleInputClick = () => {
@@ -96,6 +99,7 @@ const AutocompleteCountry: React.FC<{
           onBlur={handleInputBlur}
           placeholder="Select country"
           id="country-input"
+          ref={inputRef}
         />
         <ul
           className="suggestions"

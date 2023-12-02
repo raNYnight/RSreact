@@ -40,7 +40,7 @@ export const formSchema = object().shape({
       if (!value) return true;
 
       const fileSizeInKB = calculateFileSize(value);
-      const maxSizeInKB = 2000; // 2 МБ
+      const maxSizeInKB = 2048;
       return fileSizeInKB <= maxSizeInKB;
     })
     .test('fileType', 'Недопустимое расширение файла', (value) => {

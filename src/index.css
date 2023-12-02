@@ -221,7 +221,6 @@ fieldset p {
 .form-control-submit button {
   font-size: 2rem;
   padding: 1rem 4rem;
-  background-color: #a1ccd1;
   border: none;
   color: #252525;
   text-transform: uppercase;
@@ -233,4 +232,44 @@ fieldset p {
   position: absolute;
   top: 35px;
   left: 165px;
+}
+
+.form-submits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.form-data {
+  display: flex;
+  flex-direction: column;
+  padding-left: 15px;
+}
+.form-data h3 {
+  text-align: center;
+}
+.form-data ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding-left: 10px;
+  gap: 1.2rem;
+}
+
+.form-data li {
+  border: #a1ccd1 1px solid;
+}
+.form-data img {
+  width: 240px;
+  height: 240px;
+}
+
+ul li:first-child {
+  border: 3px solid #252525;
+  animation: removeBorder 5s forwards;
+}
+
+@keyframes removeBorder {
+  to {
+    border: #a1ccd1 1px solid;
+  }
 }

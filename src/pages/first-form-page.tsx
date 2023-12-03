@@ -9,6 +9,7 @@ import { getFileAsBase64 } from '../utils/form-utils/converFileToBase64';
 import { calculatePasswordStrength } from '../utils/form-utils/passwordStrength';
 import { formSchema } from '../utils/yup-validation-schema/yup-validation-schema';
 import { useNavigate } from 'react-router-dom';
+import { updateLastAddedItem } from '../slices/store-slice';
 
 const FirstFormPage = () => {
   const navigate = useNavigate();
@@ -71,12 +72,11 @@ const FirstFormPage = () => {
     const isFormValid = await formSchema.isValid(formData);
 
     if (isFormValid) {
-      console.log('Form is valid', formData);
       dispatch(updateFirstFormData(formData));
+      dispatch(updateLastAddedItem(formData));
       navigate('/');
     } else {
       try {
-        console.log('validation form', formData);
         await formSchema.validate(formData, { abortEarly: false });
       } catch (validationError) {
         if (validationError instanceof ValidationError) {
@@ -87,7 +87,6 @@ const FirstFormPage = () => {
               [path]: true,
             };
           }, {});
-          console.log('errorsToUpdate', errorsToUpdate);
           setErrors(() => {
             return {
               ...initErrors,

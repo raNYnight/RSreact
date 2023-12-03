@@ -11,6 +11,7 @@ import ImageUploadField from '../components/second-form/form-picture-field/form-
 import PasswordField from '../components/second-form/password-field/password-field';
 import { InitFormData, updateSecondFormData } from '../slices/second-form-slice';
 import { formSchema } from '../utils/yup-validation-schema/yup-validation-schema';
+import { updateLastAddedItem } from '../slices/store-slice';
 
 const SecondFormPage = () => {
   const navigate = useNavigate();
@@ -67,16 +68,30 @@ const SecondFormPage = () => {
     });
   };
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    dispatch(updateLastAddedItem(state));
     dispatch(updateSecondFormData(state));
     navigate('/');
   };
 
   useEffect(() => {
     const hasError = Object.values(errors).some((error) => error);
-    setIsFormValid(!hasError);
+    if (
+      state.name &&
+      state.acceptTerms &&
+      state.age &&
+      state.password &&
+      state.confirmPassword &&
+      state.country &&
+      state.gender &&
+      state.profilePicture &&
+      state.email
+    ) {
+      setIsFormValid(!hasError);
+    }
   }, [errors]);
+
   return (
     <div className="container">
       <Header />
@@ -153,10 +168,10 @@ const SecondFormPage = () => {
         <div className="form-control-submit">
           <button
             type="submit"
-            disabled={isFormValid}
+            disabled={!isFormValid}
             style={{
-              cursor: isFormValid ? 'not-allowed' : 'pointer',
-              backgroundColor: isFormValid ? '#949494' : '#a1ccd1',
+              cursor: !isFormValid ? 'not-allowed' : 'pointer',
+              backgroundColor: !isFormValid ? '#949494' : '#a1ccd1',
             }}
           >
             Submit form

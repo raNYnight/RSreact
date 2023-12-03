@@ -2,11 +2,13 @@ import { PreloadedState, combineReducers, configureStore } from '@reduxjs/toolki
 import FirstFormReducer from '../slices/first-form-slice';
 import SecondFormReducer from '../slices/second-form-slice';
 import CountriesReducer from '../slices/countries-slice';
+import StoreReducer from '../slices/store-slice';
 
 const rootReducer = combineReducers({
   firstForm: FirstFormReducer,
   secondForm: SecondFormReducer,
   countries: CountriesReducer,
+  store: StoreReducer,
 });
 const setupStore = (preloadedState?: PreloadedState<RootState>) =>
   configureStore({

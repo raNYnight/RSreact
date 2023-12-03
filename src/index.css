@@ -226,6 +226,7 @@ fieldset p {
   text-transform: uppercase;
   letter-spacing: 3px;
   font-weight: 500;
+  background: #a1ccd1;
 }
 
 .password-strength {
@@ -255,7 +256,7 @@ fieldset p {
   gap: 1.2rem;
 }
 
-.form-data li {
+.form-object {
   border: #a1ccd1 1px solid;
 }
 .form-data img {
@@ -263,7 +264,7 @@ fieldset p {
   height: 240px;
 }
 
-ul li:first-child {
+.last-added {
   border: 3px solid #252525;
   animation: removeBorder 5s forwards;
 }
